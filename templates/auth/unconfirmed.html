@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="page-header">
+    <h1>
+        你好, {{ current_user.username }}!
+    </h1>
+    <h3>你还没有登录你的科大邮箱激活你的账户.</h3>
+    <p>
+        
+        请登录你的中科大校内邮箱检查你的收件箱以及垃圾邮件列表.
+    </p>
+    <p>
+        点击此链接在此发送邀请邮件。
+        <a href="{{ url_for('resend_confirmation') }}">Click here</a>
+    </p>
+</div>
+{% endblock %}

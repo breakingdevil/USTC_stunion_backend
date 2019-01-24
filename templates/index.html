@@ -1,17 +1,13 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Student Union{% endblock %}
 
-{% block page_content %}
-<div class="page-header">
-    <h1> 你好 , {% if name %}{{ name }}{% else %}欢迎来到USTC Student Union的主页{% endif %}!</h1>
+{% block content %}
+     <h1> 你好 , {% if name %}{{ name }}{% else %}欢迎来到USTC Student Union的主页{% endif %}!</h1>
     {% if not known %}
     <h1>Pleased to meet you!</h1>
-	<h1> 登陆功能上线了! </h1>
-	<h1> 注册功能敬请期待! </h1>
+	<h1> </h1>
+	<h1> </h1>
     {% else %}
-    <p>Happy to see you again!</p>
+    <p>很高兴见到你</p>
     {% endif %}
-</div>
 {% endblock %}

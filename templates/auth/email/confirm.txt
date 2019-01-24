@@ -1,0 +1,14 @@
+你好 {{ user.username }},
+
+Welcome to Student Union
+
+请你在登录状态下打开链接:
+点击一下链接激活你的账户:
+
+{{ url_for('confirm', token=token, _external=True) }}
+
+Sincerely,
+
+The Student Union web team
+
+Note: 请不要回复此邮件.

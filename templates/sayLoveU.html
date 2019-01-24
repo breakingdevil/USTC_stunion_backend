@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+
+{% block content %}
+	{% if status %}
+		{% if pairedStatus %}
+			<br>
+			<div class="alert alert-success" role="alert">
+			<h4 class="alert-heading">配对成功!!!</h4>
+			<p>congratulations! 配对成功! 在此页面你和对方都能看到对方的联系方式！</p>
+			<hr>
+			<p class="mb-0"> 祝福你们 </p>
+			</div>
+			<br>
+			<span class="badge badge-pill badge-success">配对成功</span>
+			<div class="card border-success mb-3" style="max-width: 36rem;">
+				<div class="card-header">你告白的对象: {{ fromPersonLoveinfo.toRealname }}</div>
+				<div class="card-body text-warning">
+				<h5 class="card-title">内容:</h5>
+				<p class="card-text"> {{ fromPersonLoveinfo.fromSayText }} </p>
+				</div>
+			</div>
+			<br>
+			<span class="badge badge-pill badge-success">配对成功</span>
+			<div class="card border-success mb-3" style="max-width: 36rem;">
+				<div class="card-header">对方写给你的: {{ toPersonLoveinfo.toRealname }}</div>
+				<div class="card-body text-warning">
+				<h5 class="card-title">内容:</h5>
+				<p class="card-text"> {{ toPersonLoveinfo.fromSayText }} </p>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="card text-white bg-primary mb-3" style="max-width: 36rem;">
+			<div class="card-header">对方的信息</div>
+			<div class="card-body">
+			<h5 class="card-title">收好对方的信息！</h5>
+			<p class="card-text">邮箱地址: {{ toPerson.userEmail }}<br> QQ号: {{ toPerson.userQQnum }}</p>
+			</div>
+			</div>
+		{% else %}
+			<br>
+			<div class="alert alert-warning" role="alert">
+			<h4 class="alert-heading">Well done!</h4>
+			<p>我们已经帮你存储了你的告白，等到对方表白你的时候，你们就会完成配对!</p>
+			<hr>
+			<p class="mb-0">真心的希望你们能够配对!</p>
+			</div>
+			<br>
+			<span class="badge badge-pill badge-warning">未配对</span>
+			<div class="card border-warning mb-3" style="max-width: 36rem;">
+				<div class="card-header">你告白的对象: {{ fromPersonLoveinfo.toRealname }}</div>
+				<div class="card-body text-warning">
+				<h5 class="card-title">内容:</h5>
+				<p class="card-text"> {{ fromPersonLoveinfo.fromSayText }} </p>
+				</div>
+			</div>
+			<br>
+		{% endif %}
+		
+	{% else %}
+		<br>
+		<div class="alert alert-danger" role="alert">
+			<h4 class="alert-heading"> Oh! 你还没有给谁表白！</h4><p>赶紧输入对方的姓名给对方来一段真情表白吧！</p>
+			<hr><p class="mb-0">记得要输入对方的真实姓名，这样当对方也给你告白时你们才能完成配对</p>
+		</div>
+		<br>
+		{{ render_form(form) }}
+	{% endif %}
+
+
+{% endblock %}
