@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+
+{% block content %}
+	<br>
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<strong>一定要用你的真实信息哦!补全信息后才能体验全部功能！</strong>否则你的一起活动将会被服务器挂起!
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
+	<br>
+    <h1>用户信息补全</h1>
+    {{ render_form(form) }}
+{% endblock %}

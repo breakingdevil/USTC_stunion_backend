@@ -51,17 +51,23 @@
 <div class="container">
     <content>
 	<br>
-	<br>
-	{% block content %}
-	
-	{% endblock %}
-	</content>
-{% for message in get_flashed_messages() %}
+	{% for message in get_flashed_messages() %}
 <div class="alert alert-warning">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 			{{ message }}
 </div>
-{% endfor %}
+	{% endfor %}
+	<br>
+	{% if current_user.is_authenticated %}
+		{% if current_user.userSchoolNum%}
+		<span class="badge badge-primary">{{ current_user.userSchoolNum }}</span>
+		{% endif %}
+	{% endif %}
+	{% block content %}
+	
+	{% endblock %}
+	</content>
+
     <footer class="text-center">
         {% block footer %}
             <!-- author:breakingdevil -->
