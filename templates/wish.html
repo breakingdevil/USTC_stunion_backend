@@ -10,24 +10,24 @@
 	{% for wish in wishes %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
-		<div class="card-header"> 愿望卡 </div>
-		<div class="card-body text-primary">
-		<h5 class="card-title"> 愿望内容 </h5>
-		<p class="card-text"> {{ wish.wishcontent }} </p>
-		</div>
+			<div class="card-header"> 愿望卡 </div>
+			<div class="card-body text-primary">
+				<h5 class="card-title"> 愿望内容 </h5>
+				<p class="card-text"> {{ wish.wishcontent }} </p>
+			</div>
 		</div>
 		<br>
 	{% endfor %}
 	<br>
 
 	{% if sex %}
-	<br>
-	<a type="button" class="btn btn-outline-primary" href="{{ url_for('boy') }}">挑选属于自己的愿望</a>
-	<br>
+		<br>
+		<a type="button" class="btn btn-outline-primary" href="{{ url_for('boy') }}">挑选属于自己的愿望</a>
+		<br>
 	{% else %}
-	<br>
-	<a type="button" class="btn btn-outline-primary" href="{{ url_for('girl') }}">许下自己的愿望</a>
-	<br>
+		<br>
+		<a type="button" class="btn btn-outline-primary" href="{{ url_for('girl') }}">许下自己的愿望</a>
+		<br>
 	{% endif %}
 	<br>
 </div>
