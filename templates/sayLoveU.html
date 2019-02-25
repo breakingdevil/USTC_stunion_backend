@@ -8,7 +8,7 @@
 			<br>
 			<div class="alert alert-danger" role="alert">
 				<h4 class="alert-heading">oh!!!你的用户还处于未激活状态!</h4>
-				<p>为了提高活动的真实有趣性,我们必须要确认所有的用户都是实名用户。你想完整的体验活动，务必请激活你的账户。</p>
+				<p>为了提高活动的真实有趣性，我们需要确认所有的用户都是实名用户。如果你想完整地体验活动，请务必请激活你的账户。</p>
 				<hr>
 				<p class="mb-0">更多关于激活账户的信息点我查看!<a href="{{ url_for('unconfirmed') }}">点击这里激活账户</a></p>
 			</div>
@@ -18,7 +18,7 @@
 			<br>
 			<div class="alert alert-success" role="alert">
 				<h4 class="alert-heading">配对成功!!!</h4>
-				<p>congratulations! 配对成功! 在此页面你和对方都能看到对方的联系方式！</p>
+				<p>Congratulations! 配对成功! 在此页面你和对方都能看到对方的联系方式！</p>
 				<hr>
 				<p class="mb-0"> 祝福你们 </p>
 			</div>
@@ -27,8 +27,8 @@
 			<div class="card border-success mb-3" style="max-width: 48rem;">
 				<div class="card-header">你告白的对象: {{ fromPersonLoveinfo.toRealname }}</div>
 				<div class="card-body text-warning">
-					<h5 class="card-title">内容:</h5>
-					<p class="card-text"> {{ fromPersonLoveinfo.fromSayText }} </p>
+					<h5 class="card-title">内容：</h5>
+					<p class="card-text">{{ fromPersonLoveinfo.fromSayText }}</p>
 				</div>
 			</div>
 			<br>
@@ -36,8 +36,8 @@
 			<div class="card border-success mb-3" style="max-width: 48rem;">
 				<div class="card-header">对方写给你的: {{ toPersonLoveinfo.toRealname }}</div>
 				<div class="card-body text-warning">
-					<h5 class="card-title">内容:</h5>
-					<p class="card-text"> {{ toPersonLoveinfo.fromSayText }} </p>
+					<h5 class="card-title">内容：</h5>
+					<p class="card-text">{{ toPersonLoveinfo.fromSayText }}</p>
 				</div>
 			</div>
 			<br>
@@ -46,7 +46,7 @@
 				<div class="card-header">对方的信息</div>
 				<div class="card-body">
 					<h5 class="card-title">收好对方的信息！</h5>
-					<p class="card-text">邮箱地址: {{ toPerson.userEmail }}<br> QQ号: {{ toPerson.userQQnum }}</p>
+					<p class="card-text">邮箱地址: <a href="mailto:{{ toPerson.userEmail }}">{{ toPerson.userEmail }}</a><br> QQ号: {{ toPerson.userQQnum }}</p>
 				</div>
 			</div>
 		{% else %}
@@ -63,7 +63,7 @@
 				<div class="card-header">你告白的对象: {{ fromPersonLoveinfo.toRealname }}</div>
 				<div class="card-body text-warning">
 					<h5 class="card-title">内容:</h5>
-					<p class="card-text"> {{ fromPersonLoveinfo.fromSayText }} </p>
+					<p class="card-text">{{ fromPersonLoveinfo.fromSayText }}</p>
 				</div>
 			</div>
 			<br>
@@ -71,7 +71,7 @@
 	{% else %}
 		<br>
 		<div class="alert alert-danger" role="alert">
-			<h4 class="alert-heading"> Oh! 你还没有给谁表白！表白后不能更改表白内容和表白对象呢!</h4><p>赶紧输入对方的姓名给对方来一段真情表白吧！</p>
+			<h4 class="alert-heading">Oh! 你还没有给谁表白！表白后不能更改表白内容和表白对象呢!</h4><p>赶紧输入对方的姓名给对方来一段真情表白吧！</p>
 			<hr><p class="mb-0">记得要输入对方的真实姓名，这样当对方也给你告白时你们才能完成配对</p>
 		</div>
 		<br>
