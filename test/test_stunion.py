@@ -65,19 +65,18 @@ def test_caslogin(cas):
         assert response.status_code == 302
         assert response.location == url_for("index")
 
-        cas.perform_service_validate.side_effect = None
-        cas.perform_service_validate.return_value = MockCASResponse(True, "PB17061207")
         with client:
+            cas.perform_service_validate.side_effect = None
+            cas.perform_service_validate.return_value = MockCASResponse(True, "PB17061207")
             response = client.get(url_for("caslogin", ticket="valid"))
             assert response.status_code == 302
             assert response.location == url_for("append", _external=True)
 
             assert current_user.userSchoolNum == "PB17061207"
 
-        cas.perform_service_validate.return_value = MockCASResponse(True, "PB17061207")
-        with client:
+            cas.perform_service_validate.return_value = MockCASResponse(True, "PB17061208")
             response = client.get(url_for("caslogin", ticket="valid"))
             assert response.status_code == 302
             assert response.location == url_for("append", _external=True)
 
-            assert current_user.userSchoolNum == "PB17061207"
+            assert current_user.userSchoolNum == "PB17061208"
