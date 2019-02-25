@@ -326,7 +326,7 @@ class CASClient(object):
         logging.debug('[CAS] Session [{}] exists: {}'.format(ticket, exists))
         return exists
 
-    ### PRIVATE METHODS ###
+    # PRIVATE METHODS #
 
     def _build_auth_token_data(
         self,
