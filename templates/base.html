@@ -39,10 +39,10 @@
 					</li>
 				{% else %}
 					<li class="nav-item">
-						<a class="nav-link" href="{{url_for('register')}}">注册</a>
+						<a class="nav-link" href="{{ url_for('register') }}">注册</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{url_for('login')}}">登录</a>
+						<a class="nav-link" href="{{ url_for('login') }}">登录</a>
 					</li>
 				{% endif %}
 			</ul>
@@ -59,7 +59,7 @@
 			{% endfor %}
 			<br>
 			{% if current_user.is_authenticated %}
-				{% if current_user.userSchoolNum%}
+				{% if current_user.userSchoolNum %}
 					<span class="badge badge-primary">{{ current_user.userSchoolNum }}</span>
 				{% endif %}
 			{% endif %}

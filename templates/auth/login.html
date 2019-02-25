@@ -3,24 +3,24 @@
 
 
 {% block content %}
-		<br>
-			<div class="alert alert-success" role="alert">
+	<br>
+	<div class="alert alert-success" role="alert">
 		<h4 class="alert-heading">想要快速登录？</h4>
 		<p> 我们的网站支持学校的统一认证登录! </p>
 		<hr>
 		<p class="mb-0">赶紧点击下面的按钮快速登录吧!</p>
-		</div>
-		<br>
-		<a href="{{ url_for('caslogin') }}" class="btn btn-primary btn-lg btn-block"> 快速登录 </a>
-		<br>
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+	</div>
+	<br>
+	<a href="{{ url_for('caslogin') }}" class="btn btn-primary btn-lg btn-block"> 快速登录 </a>
+	<br>
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
 		<strong>本服务器数据和中科大邮件服务数据并不相通!</strong>未注册的用户请先注册! 
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
+			<span aria-hidden="true">&times;</span>
 		</button>
-		</div>
-    {{ render_form(form) }}
-	<p>忘记密码了吗？ <a href="{{ url_for('password_reset_request') }}">点击这里去重置密码</a>.</p>
-    <p>新用户? <a href="{{ url_for('register') }}">点击这里注册</a>.</p>
+	</div>
+	{{ render_form(form) }}
+	<p>忘记密码了？<a href="{{ url_for('password_reset_request') }}">点击这里去重置密码</a>.</p>
+	<p>新用户? <a href="{{ url_for('register') }}">点击这里注册</a>.</p>
 	<p>点我去中科大邮箱服务器收邮件<a href="http://mail.ustc.edu.cn/">点击这里收邮件</a></p>
 {% endblock %}
