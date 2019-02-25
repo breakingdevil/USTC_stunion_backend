@@ -569,12 +569,10 @@ class CASResponse(object):
         return result
 
 
-class CASSessionAdapter(object):
+class CASSessionAdapter(object, metaclass=abc.ABCMeta):
     '''
     Abstract base class for session adapters.
     '''
-
-    __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def create(self, ticket, payload=None, expires=None):
