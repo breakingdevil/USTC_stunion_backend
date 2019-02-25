@@ -36,7 +36,7 @@ class CASClient(object):
         verify_certificates=False,
         session_storage_adapter=None,
         headers=None,
-        ):
+    ):
         self._auth_prefix = auth_prefix
         self._proxy_callback = proxy_callback
         self._proxy_url = proxy_url
@@ -46,7 +46,7 @@ class CASClient(object):
         self._verify_certificates = bool(verify_certificates)
         self._headers = headers
 
-    ### PUBLIC METHODS ###
+    # PUBLIC METHODS
 
     def acquire_auth_token_ticket(self, headers=None):
         '''
@@ -70,7 +70,7 @@ class CASClient(object):
             ticket,
             payload=payload,
             expires=expires,
-            )
+        )
 
     def delete_session(self, ticket):
         '''
@@ -88,7 +88,7 @@ class CASClient(object):
         private_key,
         service_url=None,
         **kwargs
-        ):
+    ):
         '''
         Build an auth-token-protected CAS API url.
         '''
@@ -97,17 +97,17 @@ class CASClient(object):
             authenticator,
             private_key,
             **kwargs
-            )
+        )
         params = {
             'at': auth_token,
             'ats': auth_token_signature,
-            }
+        }
         if service_url is not None:
             params['service'] = service_url
         url = '{}?{}'.format(
             self._get_api_url(api_resource),
             urlencode(params),
-            )
+        )
         return url
 
     def get_auth_token_login_url(
@@ -117,7 +117,7 @@ class CASClient(object):
         private_key,
         service_url,
         username,
-        ):
+    ):
         '''
         Build an auth token login URL.
 
@@ -128,13 +128,13 @@ class CASClient(object):
             authenticator,
             private_key,
             username=username,
-            )
+        )
         logging.debug('[CAS] AuthToken: {}'.format(auth_token))
         url = self._get_auth_token_login_url(
             auth_token=auth_token,
             auth_token_signature=auth_token_signature,
             service_url=service_url,
-            )
+        )
         logging.debug('[CAS] AuthToken Login URL: {}'.format(url))
         return url
 
@@ -156,7 +156,7 @@ class CASClient(object):
             server_url=self.server_url,
             auth_prefix=self.auth_prefix,
             service_url=service_url or self.service_url,
-            )
+        )
         logging.debug('[CAS] Login URL: {}'.format(url))
         return url
 
@@ -178,7 +178,7 @@ class CASClient(object):
             server_url=self.server_url,
             auth_prefix=self.auth_prefix,
             service_url=service_url or self.service_url,
-            )
+        )
         logging.debug('[CAS] Login URL: {}'.format(url))
         return url
 
@@ -200,7 +200,7 @@ class CASClient(object):
             server_url=self.server_url,
             auth_prefix=self.auth_prefix,
             service_url=service_url or self.service_url,
-            )
+        )
         logging.debug('[CAS] Logout URL: {}'.format(url))
         return url
 
@@ -247,8 +247,8 @@ class CASClient(object):
         for key in xml_document.documentElement.attributes.keys():
             result[str(key)] = str(xml_document.documentElement.getAttribute(key))
         logging.debug('[CAS] LogoutRequest:\n{}'.format(
-            json.dumps(result, sort_keys=True, indent=4, separators=[',', ': ']),
-            ))
+            json.dumps(result, sort_keys=True, indent=4, separators=[',', ': '])
+        ))
         return result
 
     def perform_api_request(
@@ -261,7 +261,7 @@ class CASClient(object):
         service_url=None,
         headers=None,
         **kwargs
-        ):
+    ):
         '''
         Perform an auth-token-protected request against a CAS API endpoint.
         '''
@@ -273,7 +273,7 @@ class CASClient(object):
             private_key,
             service_url=None,
             **kwargs
-            )
+        )
         if method == 'GET':
             response = self._perform_get(url, headers=headers)
         elif method == 'POST':
@@ -290,7 +290,7 @@ class CASClient(object):
             url,
             ticket=proxy_ticket,
             headers=headers,
-            )
+        )
 
     def perform_proxy_validate(self, proxied_service_ticket, headers=None):
         '''
@@ -302,14 +302,14 @@ class CASClient(object):
             url,
             ticket=proxied_service_ticket,
             headers=headers,
-            )
+        )
 
     def perform_service_validate(
         self,
         ticket=None,
         service_url=None,
         headers=None,
-        ):
+    ):
         '''
         Fetch a response from the remote CAS `serviceValidate` endpoint.
         '''
@@ -334,12 +334,12 @@ class CASClient(object):
         authenticator,
         private_key,
         **kwargs
-        ):
+    ):
         auth_token = dict(
             authenticator=authenticator,
             ticket=auth_token_ticket,
             **kwargs
-            )
+        )
         auth_token = json.dumps(auth_token, sort_keys=True)
         if six.PY3:
             auth_token = auth_token.encode('utf-8')
@@ -366,7 +366,7 @@ class CASClient(object):
             api_resource=api_resource,
             auth_prefix=self.auth_prefix,
             server_url=self.server_url,
-            )
+        )
         return url
 
     def _get_auth_token_tickets_url(self):
@@ -378,12 +378,12 @@ class CASClient(object):
             'at': auth_token,
             'ats': auth_token_signature,
             'service': service_url or self.service_url,
-            })
+        })
         url = template.format(
             auth_prefix=self.auth_prefix,
             query_string=query_string,
             server_url=self.server_url,
-            )
+        )
         return url
 
     def _get_proxy_url(self, ticket):
@@ -394,7 +394,7 @@ class CASClient(object):
             proxy_callback=self.proxy_callback,
             server_url=self.server_url,
             ticket=ticket,
-            )
+        )
         return url
 
     def _get_proxy_validate_url(self, ticket):
@@ -405,7 +405,7 @@ class CASClient(object):
             proxy_callback=self.proxy_callback,
             server_url=self.server_url,
             ticket=ticket,
-            )
+        )
         return url
 
     def _get_service_validate_url(self, ticket, service_url=None):
@@ -416,7 +416,7 @@ class CASClient(object):
             server_url=self.server_url,
             service_url=service_url or self.service_url,
             ticket=ticket,
-            )
+        )
         if self.proxy_url:
             url = '{url}&pgtUrl={proxy_url}'.format(url, self.proxy_url)
         return url
@@ -439,7 +439,7 @@ class CASClient(object):
                 url,
                 verify=self.verify_certificates,
                 headers=headers,
-                )
+            )
             return response.text
         except requests.HTTPError:
             return None
@@ -451,12 +451,12 @@ class CASClient(object):
                 url,
                 verify=self.verify_certificates,
                 headers=headers,
-                )
+            )
             return response.text
         except requests.HTTPError:
             return None
 
-    ### PUBLIC PROPERTIES ###
+    # PUBLIC PROPERTIES #
 
     @property
     def auth_prefix(self):
@@ -523,8 +523,7 @@ class CASResponse(object):
 
     def __init__(self, response_text):
         self.response_text = response_text
-        self.response_type, cas_data = self._parse_cas_xml_response(
-            response_text)
+        self.response_type, cas_data = self._parse_cas_xml_response(response_text)
         self.success = 'success' in self.response_type.lower()
         self.data = cas_data.get(self.response_type)
         if isinstance(self.data, dict):
@@ -631,4 +630,4 @@ __all__ = [
     'CASResponse',
     'CASSessionAdapter',
     'MemcachedCASSessionAdapter',
-    ]
+]
