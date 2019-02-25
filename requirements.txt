@@ -8,3 +8,6 @@ Flask-Login
 PyMySQL
 
 flake8~=3.6.0
+
+pytest
+pytest-flask
