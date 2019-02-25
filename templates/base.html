@@ -10,14 +10,14 @@
 </head>
 <body>
 <nav class="navbar navbar-dark bg-primary">
-  <a class="navbar-brand" href="#">中国科学技术大学校学生会</a>
+  <a class="navbar-brand" href="https://stunion.ustc.edu.cn">中国科学技术大学校学生会</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="#">主页 <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ url_for('index') }}">主页 <span class="sr-only">(current)</span></a>
       </li>
 	  {% if current_user.is_authenticated %}
       <li class="nav-item dropdown">
@@ -32,16 +32,17 @@
 	  <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">最新活动
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="{{ url_for('sayLoveU') }}">表白配对</a>
-        </div>
+		<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+			<a class="dropdown-item" href="{{ url_for('wish') }}"> 愿望实现 </a>
+			<a class="dropdown-item" href="{{ url_for('sayLoveU') }}"> 表白配对 </a>
+		</div>
       </li>
 	  {% else %}
 	  <li class="nav-item">
         <a class="nav-link" href="{{url_for('register')}}">注册</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{url_for('login')}}">登陆</a>
+        <a class="nav-link" href="{{url_for('login')}}">登录</a>
       </li>
 	  {% endif %}
     </ul>
@@ -49,6 +50,8 @@
 </nav>
 <div class="container">
     <content>
+	<br>
+	<br>
 	{% block content %}
 	
 	{% endblock %}
@@ -61,7 +64,8 @@
 {% endfor %}
     <footer class="text-center">
         {% block footer %}
-            
+            <!-- author:breakingdevil -->
+			<!-- 谢谢各位校友的访问。谢谢大家 -->
         {% endblock %}
     </footer>
 </div>

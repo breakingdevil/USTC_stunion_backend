@@ -3,6 +3,14 @@
 
 
 {% block content %}
+	<br>
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<strong>一定要用你的真实信息哦!注册完毕后即可登录!</strong>激活账户后才能体验全部功能，否则你的一起活动将会被服务器挂起!
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
+	<br>
     <h1>用户注册</h1>
     {{ render_form(form) }}
 {% endblock %}

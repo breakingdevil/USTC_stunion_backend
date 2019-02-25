@@ -1,7 +1,7 @@
-你好 {{ user.username }},
+你好 {{ user.userEmail }},
 
 Welcome to Student Union
-
+请在确保你已经在网站登录的状态下再在同一浏览器内打开一下链接!!!
 请你在登录状态下打开链接:
 点击一下链接激活你的账户:
 

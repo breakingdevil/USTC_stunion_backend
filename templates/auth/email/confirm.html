@@ -1,5 +1,6 @@
-<p>你好 {{ user.username }},</p>
+<p>你好 {{ user.userEmail }},</p>
 <p>Welcome to <b>Ustc Student</b>!</p>
+<p>请在确保你已经在网站登录的状态下再在同一浏览器内打开一下链接!!!</p>
 <p>请确认你的账户 <a href="{{ url_for('confirm', token=token, _external=True) }}">点我确认！</a>.</p>
 <p>请你在登录状态下打开链接:</p>
 <p>你也可以将此链接复制到浏览器中:</p>

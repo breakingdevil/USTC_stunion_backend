@@ -4,6 +4,16 @@
 
 {% block content %}
 	{% if status %}
+		{% if userStatus==0 %}
+			<br>
+			<div class="alert alert-danger" role="alert">
+			<h4 class="alert-heading">oh!!!你的用户还处于未激活状态!</h4>
+			<p>为了提高活动的真实有趣性,我们必须要确认所有的用户都是实名用户。你想完整的体验活动，务必请激活你的账户。</p>
+			<hr>
+			<p class="mb-0">更多关于激活账户的信息点我查看!<a href="{{ url_for('unconfirmed') }}">点击这里激活账户</a></p>
+			</div>
+			<br>
+		{% endif %}
 		{% if pairedStatus %}
 			<br>
 			<div class="alert alert-success" role="alert">
@@ -14,7 +24,7 @@
 			</div>
 			<br>
 			<span class="badge badge-pill badge-success">配对成功</span>
-			<div class="card border-success mb-3" style="max-width: 36rem;">
+			<div class="card border-success mb-3" style="max-width: 48rem;">
 				<div class="card-header">你告白的对象: {{ fromPersonLoveinfo.toRealname }}</div>
 				<div class="card-body text-warning">
 				<h5 class="card-title">内容:</h5>
@@ -23,7 +33,7 @@
 			</div>
 			<br>
 			<span class="badge badge-pill badge-success">配对成功</span>
-			<div class="card border-success mb-3" style="max-width: 36rem;">
+			<div class="card border-success mb-3" style="max-width: 48rem;">
 				<div class="card-header">对方写给你的: {{ toPersonLoveinfo.toRealname }}</div>
 				<div class="card-body text-warning">
 				<h5 class="card-title">内容:</h5>
@@ -32,7 +42,7 @@
 			</div>
 			<br>
 			<br>
-			<div class="card text-white bg-primary mb-3" style="max-width: 36rem;">
+			<div class="card text-white bg-primary mb-3" style="max-width: 48rem;">
 			<div class="card-header">对方的信息</div>
 			<div class="card-body">
 			<h5 class="card-title">收好对方的信息！</h5>
@@ -49,7 +59,7 @@
 			</div>
 			<br>
 			<span class="badge badge-pill badge-warning">未配对</span>
-			<div class="card border-warning mb-3" style="max-width: 36rem;">
+			<div class="card border-warning mb-3" style="max-width: 48rem;">
 				<div class="card-header">你告白的对象: {{ fromPersonLoveinfo.toRealname }}</div>
 				<div class="card-body text-warning">
 				<h5 class="card-title">内容:</h5>
@@ -62,7 +72,7 @@
 	{% else %}
 		<br>
 		<div class="alert alert-danger" role="alert">
-			<h4 class="alert-heading"> Oh! 你还没有给谁表白！</h4><p>赶紧输入对方的姓名给对方来一段真情表白吧！</p>
+			<h4 class="alert-heading"> Oh! 你还没有给谁表白！表白后不能更改表白内容和表白对象呢!</h4><p>赶紧输入对方的姓名给对方来一段真情表白吧！</p>
 			<hr><p class="mb-0">记得要输入对方的真实姓名，这样当对方也给你告白时你们才能完成配对</p>
 		</div>
 		<br>

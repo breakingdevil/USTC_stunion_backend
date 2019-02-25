@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+
+{% block content %}
+<br>
+	{% if mywish%}
+		{% if userStatus == 0 %}
+			<br>
+			<div class="alert alert-danger" role="alert">
+			<h4 class="alert-heading">oh!!!你的用户还处于未激活状态!</h4>
+			<p>为了提高活动的真实有趣性,我们必须要确认所有的用户都是实名用户。你想完整的体验活动，务必请激活你的账户。如果你不激活你的账户，你的一切行为将被服务器无限期挂起!</p>
+			<hr>
+			<p class="mb-0">更多关于激活账户的信息点我查看!<a href="{{ url_for('unconfirmed') }}">点击这里激活账户</a></p>
+			</div>
+			<br>
+		{% endif %}
+		{% if mywish.wishstatus == 0%}
+			<br>
+			<span class="badge badge-pill badge-primary">未被选取</span>
+			<div class="card border-primary mb-3" style="max-width: 36rem;">
+			<div class="card-header">愿望卡</div>
+			<div class="card-body text-primary">
+			<h5 class="card-title">愿望</h5>
+			<p class="card-text">{{ mywish.wishcontent }}</p>
+			</div>
+			</div>
+			<br>
+			<div class="alert alert-warning alert-dismissible fade show" role="alert">hi，同学</strong> 你的愿望未被选取，可以再次提交你的愿望来修改你的愿望.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+			<br>
+			{{ render_form(form) }}
+		{% endif%}
+		
+		{% if mywish.wishstatus == 1%}
+			<br>
+			<span class="badge badge-warning">已被选取</span>
+			<div class="card border-warning mb-3" style="max-width: 36rem;">
+			<div class="card-header">愿望卡</div>
+			<div class="card-body text-warning">
+			<h5 class="card-title">愿望</h5>
+			<p class="card-text">{{ mywish.wishcontent }}</p>
+			</div>
+			</div>
+			<br>
+			<div class="card text-white bg-info mb-3" style="max-width: 36rem;">
+			<div class="card-header">男生信息</div>
+			<div class="card-body">
+			<h5 class="card-title">{{ mywish.boyEmail }}</h5>
+			<p class="card-text"> 对方正在实现你的愿望，有什么疑问可以直接联系对方哦.</p>
+			</div>
+			</div>
+			<br>
+		{% endif%}
+		
+		{% if mywish.wishstatus == 2%}
+			<br>
+			<span class="badge badge-pill badge-success">已实现</span>
+			<div class="card border-success mb-3" style="max-width: 36rem;">
+			<div class="card-header">你的愿望</div>
+			<div class="card-body text-success">
+			<h5 class="card-title">内容</h5>
+			<p class="card-text"> {{ mywish.wishcontent }} </p>
+			</div>
+			</div>
+			<br>
+			<div class="card text-white bg-danger mb-3" style="max-width: 48rem;">
+			<div class="card-header"> 祝贺你 </div>
+			<div class="card-body">
+			<h5 class="card-title"> 对方实现了你的愿望 </h5>
+			<p class="card-text">对方的邮箱: {{ mywish.boyEmail }}<br>对方的QQ号:{{ mywish.boyQQnum }} <br> 赶快联系他吧! </p>
+			</div>
+			</div>
+		{% endif %}
+	{% else %}
+	<br>
+		<div class="alert alert-warning" role="alert">
+			<h4 class="alert-heading">你还没有许愿呢！快来许个愿望吧！</h4>
+			<p>你许愿之后系统将会记录你的愿望并且将愿望放入愿望池中等待被抽中！</p><hr><p class="mb-0">我们每个人都盼望着美好的事情发生!.</p>
+			</div>
+	<br>
+	{{ render_form(form) }}
+	{% endif %}
+
+
+<br>
+{% endblock %}
