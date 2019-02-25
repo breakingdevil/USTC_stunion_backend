@@ -327,12 +327,11 @@ def girl():
             return redirect(url_for('girl'))
     mywish = wishdatebase.query.filter_by(userEmail=current_user.userEmail, userSchoolNum=current_user.userSchoolNum).first()
     if mywish is not None:
-        mywish.userStatus=current_user.userStatus
+        mywish.userStatus = current_user.userStatus
         db.session.add(mywish)
         db.session.commit()
         mywish = wishdatebase.query.filter_by(userEmail=current_user.userEmail, userSchoolNum=current_user.userSchoolNum).first()
-    return render_template('girl.html', form = form , mywish=mywish, userStatus=current_user.userStatus)
-
+    return render_template('girl.html', form=form , mywish=mywish, userStatus=current_user.userStatus)
 
 
 @app.route('/boy', methods=['GET', 'POST'])
@@ -341,7 +340,7 @@ def boy():
     if current_user.userSex == 0:
         flash("女同学不同进来")
         return redirect(url_for("index"))
-    if timelimit==1 and checkTimeLimit()==False:
+    if timelimit == 1 and not checkTimeLimit():
         flash("活动尚未开始")
         return redirect(url_for('index'))
     if current_user.userEmail is None:
@@ -350,8 +349,8 @@ def boy():
     selectwishform = selectform()
     finishwishform = finishform()
     updatewishform = updateform()
-########################################################
-### 选择愿望
+
+    # 选择愿望
     if selectwishform.validate_on_submit() and selectwishform.submit1.data:
         wishid = selectwishform.wishid.data
         myrecord = selectwishes.query.filter_by(userEmail=current_user.userEmail, userSchoolNum=current_user.userSchoolNum).first()
@@ -366,17 +365,17 @@ def boy():
         if wishid > len(mycash) or wishid < 0:
             flash("对不起,选择愿望序号有误!")
             return redirect(url_for("boy"))
-        myselectemail = mycash[wishid-1]
+        myselectemail = mycash[wishid - 1]
         otherselect = selectwishes.query.filter_by(girlEmail=myselectemail).first()
         if otherselect is not None:
             flash("对不起，该愿望已经被选取")
             return redirect(url_for('wish'))
         girllog = wishdatebase.query.filter_by(userEmail=myselectemail).first()
-        myrecord.wishstatus=0
-        myrecord.girlEmail=myselectemail
-        myrecord.girlQQnum=girllog.girlQQnum
+        myrecord.wishstatus = 0
+        myrecord.girlEmail = myselectemail
+        myrecord.girlQQnum = girllog.girlQQnum
         myrecord.girlSchoolNum = girllog.userSchoolNum
-        myrecord.selecttime=datetime.now()
+        myrecord.selecttime = datetime.now()
         girllog.wishstatus = 1
         girllog.boyQQnum = current_user.userQQnum
         girllog.boyEmail = current_user.userEmail
@@ -386,10 +385,10 @@ def boy():
         db.session.commit()
         flash("选取愿望成功！")
         return redirect(url_for('boy'))
-###########################################################
-#### 完成愿望!
+
+    # 完成愿望!
     if finishwishform.validate_on_submit() and finishwishform.submit2.data:
-        if current_user.userStatus==0:
+        if current_user.userStatus == 0:
             flash("对不起,你的账户还未激活!")
             return redirect(url_for('boy'))
         myrecord = selectwishes.query.filter_by(userEmail=current_user.userEmail, userSchoolNum=current_user.userSchoolNum).first()
@@ -403,17 +402,17 @@ def boy():
             flash("完成愿望成功!")
             return redirect(url_for('boy'))
         return redirect(url_for('boy'))
-###################################################
-#### 更新愿望!
+
+    # 更新愿望!
     if updatewishform.validate_on_submit() and updatewishform.submit3.data:
         myrecord = selectwishes.query.filter_by(userEmail=current_user.userEmail, userSchoolNum=current_user.userSchoolNum).first()
-        if current_user.userStatus==0:
+        if current_user.userStatus == 0:
             flash("对不起,你的账户还未激活!")
             return redirect(url_for('boy'))
         if myrecord.lastupdatetime is None:
             wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
             mystr = ""
-            if wishes.count()== 0:
+            if wishes.count() == 0:
                 flash("当前没有可以被选取的愿望")
                 return redirect(url_for('boy'))
             for wish in wishes:
@@ -427,7 +426,7 @@ def boy():
             return redirect(url_for('boy'))
         nowtime = datetime.now()
         lastupdatetime = datetime.strptime(myrecord.lastupdatetime,"%Y-%m-%d %H:%M:%S.%f")
-        if (nowtime-lastupdatetime).days >= 1:
+        if (nowtime - lastupdatetime).days >= 1:
             wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
             if wishes.count() == 0:
                 flash("没有可以被选取的愿望")
@@ -437,7 +436,7 @@ def boy():
                 mystr += wish.userEmail + ";"
             if mystr != "":
                 myrecord.cashid = mystr
-            myrecord.lastupdatetime=str(nowtime)
+            myrecord.lastupdatetime = str(nowtime)
             db.session.add(myrecord)
             db.session.commit()
             flash("刷新愿望成功")
@@ -458,7 +457,7 @@ def boy():
         if wishes.count() == 0:
             flash("没有可以被选取的愿望")
             return redirect(url_for('wish'))
-        mystr=""
+        mystr = ""
         for wish in wishes:
             mystr += wish.userEmail + ";"
         if mystr != "":
@@ -468,7 +467,7 @@ def boy():
         db.session.commit()
         return redirect(url_for('boy'))
     if myrecord.lastupdatetime is None:
-        myrecord.lastupdatetime="2019-01-01 00:00:00.000000"
+        myrecord.lastupdatetime = "2019-01-01 00:00:00.000000"
         db.session.add(myrecord)
         db.session.commit()
         return redirect(url_for('boy'))
@@ -478,15 +477,15 @@ def boy():
         myselectwish = wishdatebase.query.filter_by(userEmail=myrecord.girlEmail).first()
         wishes = []
         magiccode = 0
-        return render_template("boy.html", selectwishform=selectwishform, updatewishform = updatewishform, finishwishform=finishwishform, myselectwish= myselectwish, wishes=wishes, magiccode=magiccode, userStatus=current_user.userStatus)
+        return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform, finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes, magiccode=magiccode, userStatus=current_user.userStatus)
     if myrecord.wishstatus == 1:
         myselectwish = wishdatebase.query.filter_by(userEmail=myrecord.girlEmail).first()
         wishes = []
         magiccode = 0
         return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform, finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes, magiccode=magiccode, userStatus=current_user.userStatus)
-    lasttime = datetime.strptime(str(myrecord.lastviewtime),"%Y-%m-%d %H:%M:%S.%f")
+    lasttime = datetime.strptime(str(myrecord.lastviewtime), "%Y-%m-%d %H:%M:%S.%f")
     nowtime = datetime.now()
-    if (nowtime-lasttime).days >= 1:
+    if (nowtime - lasttime).days >= 1:
         wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
         if wishes.count() == 0:
             flash("没有可以被选取的愿望")
@@ -515,7 +514,7 @@ def boy():
         content += cpofonewish.wishcontent
         cpofonewish.wishcontent = content
         wishes.append(cpofonewish)
-    return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform, finishwishform=finishwishform, myselectwish=myselectwish, wishes = wishes, magiccode=magiccode, userStatus=current_user.userStatus)
+    return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform, finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes, magiccode=magiccode, userStatus=current_user.userStatus)
 
 ############################################################
 
@@ -533,16 +532,15 @@ class RegisterForm(FlaskForm):
     realname = StringField("姓名(请输入你的真实姓名,不然你凭实力单身，我们也帮不了你)", validators=[DataRequired()])
     password = PasswordField('请设置密码', validators=[DataRequired(), Length(6, 64)])
     QQnum = StringField(" QQ号码", validators=[DataRequired()])
-    sex = RadioField("性别", choices=[(1,"男") , ( 0 ,"女")], validators=[], coerce=int)
+    sex = RadioField("性别", choices=[(1, "男") , (0, "女")], validators=[], coerce=int)
     submit = SubmitField('注册')
+
     def validate_email(self, field):
         if not field.data.endswith("@mail.ustc.edu.cn") and not field.data.endswith("@ustc.edu.cn"):
             raise ValidationError('请使用 @mail.ustc.edu.cn 或者 @ustc.edu.cn')
         user = User.query.filter_by(userEmail=field.data).first()
         if user is not None and user.userStatus == 1:
             raise ValidationError('电子邮箱已经注册')
-
-
 
 
 class ChangePasswordForm(FlaskForm):
@@ -552,11 +550,9 @@ class ChangePasswordForm(FlaskForm):
     submit = SubmitField('确认修改密码')
 
 
-
 class PasswordResetRequestForm(FlaskForm):
     email = StringField('您注册的邮箱', validators=[DataRequired(), Length(1, 64), Email()])
     submit = SubmitField('重置密码')
-
 
 
 class PasswordResetForm(FlaskForm):
@@ -564,8 +560,6 @@ class PasswordResetForm(FlaskForm):
         DataRequired(), EqualTo('password2', message='Passwords must match')])
     password2 = PasswordField('确认新的密码', validators=[DataRequired()])
     submit = SubmitField('重置密码')
-
-
 
 
 @app.errorhandler(404)
@@ -587,13 +581,13 @@ def internal_server_error(e):
 @app.route('/index')
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    userStatus=0
+    userStatus = 0
     if current_user.is_anonymous:
         return render_template('index.html', userStatus=1)
     return render_template('index.html', userStatus=current_user.userStatus)
 
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -619,8 +613,7 @@ def logout():
     return redirect(cas_logout_url)
 
 
-
-@app.route('/register', methods=['GET','POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
@@ -640,11 +633,11 @@ def register():
             User.query.filter_by(userEmail=form.email.data).delete()
             user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum, userSex=newusersex, userRealName=newuserrealname)
         user.setPassword(newuserpassword)
-        user.userStatus=0
+        user.userStatus = 0
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        mymsg = mySendMailFormat("Student Union 邀请您激活账户","system@maglee.me", user.userEmail,"","auth/email/confirm", token=token, user=user)
+        mymsg = mySendMailFormat("Student Union 邀请您激活账户", "system@maglee.me", user.userEmail, "", "auth/email/confirm", token=token, user=user)
         simpleSendMail(app, mymsg)
         flash(" 注册成功 , 激活账户的邮件已发往您的 ustc 校内邮箱 ！")
         flash("邮件可能标记为垃圾邮件")
@@ -664,6 +657,7 @@ def confirm(token):
     else:
         flash("激活链接已经失效！")
     return redirect(url_for("index"))
+
 
 @app.route('/unconfirmed')
 @login_required
@@ -687,16 +681,16 @@ def resend_confirmation():
         db.session.add(newtimestamp)
         db.session.commit()
         token = current_user.generate_confirmation_token()
-        mymsg = mySendMailFormat("Student Union 邀请您激活账户", "system@maglee.me", current_user.userEmail, "","auth/email/confirm", token=token, user=current_user)
+        mymsg = mySendMailFormat("Student Union 邀请您激活账户", "system@maglee.me", current_user.userEmail, "", "auth/email/confirm", token=token, user=current_user)
         simpleSendMail(app, mymsg)
         flash("邮件已经发送,请注意查收！")
         return redirect(url_for('index'))
     nowtime = datetime.now()
-    lasttime = datetime.strptime(str(stamp.timestamp),"%Y-%m-%d %H:%M:%S.%f")
-    if (nowtime-lasttime).seconds <= 600:
+    lasttime = datetime.strptime(str(stamp.timestamp), "%Y-%m-%d %H:%M:%S.%f")
+    if (nowtime - lasttime).seconds <= 600:
         flash("对不起,您申请激活邮件的次数过于频繁, 10min后再试试吧!")
         return redirect(url_for('index'))
-    stamp.timestamp=str(datetime.now())
+    stamp.timestamp = str(datetime.now())
     db.session.add(stamp)
     db.session.commit()
     token = current_user.generate_confirmation_token()
@@ -732,7 +726,7 @@ def password_reset_request():
         if user:
             token = user.generate_reset_token()
             # send_email(user.email, 'Reset Your Password','auth/email/reset_password', user=user, token=token)
-            mymsg = mySendMailFormat("Student Union 更改您的账户密码", "system@maglee.me", user.userEmail, "","auth/email/reset_password", token=token, user=user)
+            mymsg = mySendMailFormat("Student Union 更改您的账户密码", "system@maglee.me", user.userEmail, "", "auth/email/reset_password", token=token, user=user)
             simpleSendMail(app, mymsg)
             flash("邮件已经发送,请注意查收！")
             return redirect(url_for('login'))
@@ -757,16 +751,16 @@ def password_reset(token):
     return render_template('auth/reset_password.html', form=form)
 
 
-
 ########################################################
-## 统一认证接口
+# 统一认证接口
 class appendUserDataForm(FlaskForm):
     email = StringField("电子邮箱(中科大校内邮箱,以@mail.ustc.edu.cn、@ustc.edu.cn结尾)", validators=[DataRequired(), Length(1, 64), Email()])
     realname = StringField("姓名(请输入你的真实姓名,不然你凭实力单身，我们也帮不了你)", validators=[DataRequired()])
     password = PasswordField('请设置密码', validators=[DataRequired(), Length(6, 64)])
     QQnum = StringField(" QQ号码", validators=[DataRequired()])
-    sex = RadioField("性别", choices=[(1,"男") , ( 0 ,"女")], validators=[], coerce=int)
+    sex = RadioField("性别", choices=[(1,"男") , (0, "女")], validators=[], coerce=int)
     submit = SubmitField('补全资料')
+
     def validate_email(self, field):
         if not field.data.endswith("@mail.ustc.edu.cn") and not field.data.endswith("@ustc.edu.cn"):
             raise ValidationError('请使用 @mail.ustc.edu.cn 或者 @ustc.edu.cn')
@@ -808,8 +802,8 @@ def caslogin():
             cas_response = cas_client.perform_service_validate(
                 ticket=ticket,
                 service_url=app_login_url,
-                )
-        except:
+            )
+        except Exception:
             # CAS server is currently broken, try again later.
             return redirect(url_for('index'))
         if cas_response and cas_response.success:
@@ -837,7 +831,6 @@ def caslogin():
     cas_login_url = cas_client.get_login_url(service_url=app_login_url)
     return redirect(cas_login_url)
 
-###########################################
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
