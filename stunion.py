@@ -580,7 +580,6 @@ def internal_server_error(e):
 @app.route('/index')
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    userStatus = 0
     if current_user.is_anonymous:
         return render_template('index.html', userStatus=1)
     return render_template('index.html', userStatus=current_user.userStatus)
@@ -817,14 +816,8 @@ def caslogin():
                 db.session.commit()
                 newuser = User.query.filter_by(userSchoolNum=cas_response.user).first()
                 login_user(newuser)
-                # next = request.args.get('next')
-                # if next is None or not next.startswith('/'):
-                #     next = url_for('index')
                 return redirect(url_for('append'))
             login_user(myrecord)
-            # next = request.args.get('next')
-            # if next is None or not next.startswith('/'):
-            #     next = url_for('index')
             return redirect(url_for('append'))
     cas_login_url = cas_client.get_login_url(service_url=app_login_url)
     return redirect(cas_login_url)

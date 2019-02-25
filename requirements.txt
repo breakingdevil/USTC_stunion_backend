@@ -1,11 +1,12 @@
 Flask
-Flask-Bootstrap
+Bootstrap-Flask
 Flask_Moment
 Flask_WTF
 Flask_SQLAlchemy
 Flask-Mail
 Flask-Login
-PyMySQL
+mysqlclient
+PyCryptodome
 requests
 
 flake8~=3.6.0
