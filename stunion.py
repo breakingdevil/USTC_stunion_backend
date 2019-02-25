@@ -15,7 +15,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from cas_client import CASClient
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+basedir = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
@@ -44,8 +44,8 @@ timelimit = 0
 def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
-    starttime = datetime(2019, 1, 1, 0, 0, 0, 0)
-    endtime = datetime(2019, 1, 1, 0, 0, 0, 0)
+    starttime = datetime(2019, 3, 7, 0, 0, 0, 0)
+    endtime = datetime(2019, 3, 10, 0, 0, 0, 0)
     return starttime <= nowtime < endtime
 
 
@@ -89,7 +89,6 @@ class User(UserMixin, db.Model):
 
     def setPassword(self, password):
         self.userPasswordHash = generate_password_hash(password)
-        return
 
     def verifyPassword(self, password):
         return check_password_hash(self.userPasswordHash, password)
