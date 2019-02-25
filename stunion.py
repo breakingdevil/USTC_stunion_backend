@@ -13,7 +13,7 @@ from flask_login import login_required, login_user, login_fresh, login_url, Logi
 from threading import Thread
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
-from cas_client import CASClient
+from cas_client import *
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,7 +30,7 @@ app.config['MAIL_PASSWORD'] = "DoYouLoveUSTC1.2."
 
 app_login_url = 'https://stunion.ustc.edu.cn/caslogin'
 cas_url = 'https://passport.ustc.edu.cn'
-cas_client = CASClient(cas_url, auth_prefix='')
+cas_client = CASClient(cas_url, auth_prefix='', session_storage_adapter=MemcachedCASSessionAdapter)
 
 mail = Mail(app)
 login_manager = LoginManager(app)
