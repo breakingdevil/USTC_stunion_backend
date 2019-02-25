@@ -331,7 +331,7 @@ def girl():
         db.session.add(mywish)
         db.session.commit()
         mywish = wishdatebase.query.filter_by(userEmail=current_user.userEmail, userSchoolNum=current_user.userSchoolNum).first()
-    return render_template('girl.html', form=form , mywish=mywish, userStatus=current_user.userStatus)
+    return render_template('girl.html', form=form, mywish=mywish, userStatus=current_user.userStatus)
 
 
 @app.route('/boy', methods=['GET', 'POST'])
@@ -425,7 +425,7 @@ def boy():
             flash("刷新愿望成功")
             return redirect(url_for('boy'))
         nowtime = datetime.now()
-        lastupdatetime = datetime.strptime(myrecord.lastupdatetime,"%Y-%m-%d %H:%M:%S.%f")
+        lastupdatetime = datetime.strptime(myrecord.lastupdatetime, "%Y-%m-%d %H:%M:%S.%f")
         if (nowtime - lastupdatetime).days >= 1:
             wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
             if wishes.count() == 0:
@@ -532,7 +532,7 @@ class RegisterForm(FlaskForm):
     realname = StringField("姓名(请输入你的真实姓名,不然你凭实力单身，我们也帮不了你)", validators=[DataRequired()])
     password = PasswordField('请设置密码', validators=[DataRequired(), Length(6, 64)])
     QQnum = StringField(" QQ号码", validators=[DataRequired()])
-    sex = RadioField("性别", choices=[(1, "男") , (0, "女")], validators=[], coerce=int)
+    sex = RadioField("性别", choices=[(1, "男"), (0, "女")], validators=[], coerce=int)
     submit = SubmitField('注册')
 
     def validate_email(self, field):
@@ -758,7 +758,7 @@ class appendUserDataForm(FlaskForm):
     realname = StringField("姓名(请输入你的真实姓名,不然你凭实力单身，我们也帮不了你)", validators=[DataRequired()])
     password = PasswordField('请设置密码', validators=[DataRequired(), Length(6, 64)])
     QQnum = StringField(" QQ号码", validators=[DataRequired()])
-    sex = RadioField("性别", choices=[(1,"男") , (0, "女")], validators=[], coerce=int)
+    sex = RadioField("性别", choices=[(1, "男"), (0, "女")], validators=[], coerce=int)
     submit = SubmitField('补全资料')
 
     def validate_email(self, field):
@@ -791,7 +791,6 @@ def append():
         db.session.commit()
         return redirect(url_for("append"))
     return render_template('append.html', form=infoform)
-
 
 
 @app.route('/caslogin', methods=['GET', 'POST'])
