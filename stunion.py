@@ -28,8 +28,6 @@ app.config['MAIL_USE_TLS'] = False  # 启用安全传输层协议
 app.config['MAIL_USERNAME'] = "system@maglee.me"  # 从系统环境变量加载用户名和密码
 app.config['MAIL_PASSWORD'] = "DoYouLoveUSTC1.2."
 
-
-
 app_login_url = 'https://stunion.ustc.edu.cn/caslogin'
 cas_url = 'https://passport.ustc.edu.cn'
 cas_client = CASClient(cas_url, auth_prefix='')
@@ -65,13 +63,10 @@ def sendMailSyncFuc(app, msg):
         mail.send(msg)
 
 
-#
 def simpleSendMail(app, msg):
     thr = Thread(target=sendMailSyncFuc, args=[app, msg])
     thr.start()
     return thr
-
-
 
 
 class User(UserMixin, db.Model):
@@ -107,7 +102,7 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token.encode('utf-8'))
-        except:
+        except Exception:
             return False
         if data.get('confirm') != self.id:
             return False
@@ -124,7 +119,7 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token.encode('utf-8'))
-        except:
+        except Exception:
             return False
         user = User.query.get(data.get('reset'))
         if user is None:
@@ -142,8 +137,8 @@ def loadUser(user_id):
     return User.query.get(int(user_id))
 
 
-############################################################################
-## sayLoveU
+#############################################################################
+# sayLoveU
 
 class sayLoveUDatabase(db.Model):
     __tablename__ = 'sayLoveU'
@@ -162,9 +157,9 @@ class sayLoveUForm(FlaskForm):
 @app.route('/sayLoveU', methods=['GET', 'POST'])
 @login_required
 def sayLoveU():
-    if timelimit==1:
+    if timelimit == 1:
         sign = checkTimeLimit()
-        if sign == False:
+        if not sign:
             flash("活动尚未开始")
             return redirect(url_for('index'))
     form = sayLoveUForm()
@@ -186,7 +181,7 @@ def sayLoveU():
     fromPersonLoveinfo = checkSayLoveUstatus
     toPerson = None
     toPersonLoveinfo = None
-    pairedStatus= 0
+    pairedStatus = 0
     if checkSayLoveUstatus is None:
         return render_template('sayLoveU.html', form=form, status=status, pairedStatus=pairedStatus, fromPerson=fromPerson, toPerson=toPerson, fromPersonLoveinfo=fromPersonLoveinfo, toPersonLoveinfo=toPersonLoveinfo, userStatus=current_user.userStatus)
     else:
@@ -229,8 +224,9 @@ def sayLoveU():
                                            toPersonLoveinfo=toPersonLoveinfo, userStatus=current_user.userStatus)
         return render_template('sayLoveU.html', form=form, status=status, pairedStatus=pairedStatus, fromPerson=fromPerson, toPerson=toPerson, fromPersonLoveinfo=fromPersonLoveinfo, toPersonLoveinfo=toPersonLoveinfo, userStatus=current_user.userStatus)
 
+
 #####################################################################################
-## 愿望实现
+# 愿望实现
 
 class wishdatebase(db.Model):
     userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
@@ -245,6 +241,7 @@ class wishdatebase(db.Model):
     boyEmail = db.Column(db.String(64), nullable=True)
     boySchoolNum = db.Column(db.String(64), nullable=True)
     userStatus = db.Column(db.Integer, nullable=True)
+
 
 class wishform(FlaskForm):
     wishText = TextAreaField(" 许愿内容 ", validators=[DataRequired()])
@@ -284,9 +281,9 @@ class selectwishes(db.Model):
 def wish():
     sex = 0
     sex = current_user.userSex
-    if timelimit==1:
+    if timelimit == 1:
         sign = checkTimeLimit()
-        if sign == False:
+        if not sign:
             flash("活动尚未开始")
             return redirect(url_for('index'))
     if current_user.userEmail is None:
@@ -295,7 +292,7 @@ def wish():
     if wishes.count() == 0:
         flash("还没有可以选择的愿望!")
         return render_template('wish.html', sex=sex, wishes=wishes)
-    return render_template('wish.html', sex=sex, wishes = wishes)
+    return render_template('wish.html', sex=sex, wishes=wishes)
 
 
 @app.route('/girl', methods=['GET', 'POST'])
