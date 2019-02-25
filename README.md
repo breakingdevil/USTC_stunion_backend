@@ -1,4 +1,4 @@
-# USTC stunion backend [![Build Status](https://travis-ci.com/breakingdevil/USTC_stunion_backend.svg?token=9jooK4Qfof8h4FFgpnEK&branch=master)](https://travis-ci.com/breakingdevil/USTC_stunion_backend)
+# USTC Student Union backend [![Build Status](https://travis-ci.com/breakingdevil/USTC_stunion_backend.svg?token=9jooK4Qfof8h4FFgpnEK&branch=master)](https://travis-ci.com/breakingdevil/USTC_stunion_backend)
 
 https://blog.csdn.net/lxfHaHaHa/article/details/78490249
 
