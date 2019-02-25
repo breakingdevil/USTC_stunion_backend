@@ -6,6 +6,7 @@ Flask_SQLAlchemy
 Flask-Mail
 Flask-Login
 PyMySQL
+requests
 
 flake8~=3.6.0
 

@@ -817,14 +817,14 @@ def caslogin():
                 db.session.commit()
                 newuser = User.query.filter_by(userSchoolNum=cas_response.user).first()
                 login_user(newuser)
-                next = request.args.get('next')
-                if next is None or not next.startswith('/'):
-                    next = url_for('index')
+                # next = request.args.get('next')
+                # if next is None or not next.startswith('/'):
+                #     next = url_for('index')
                 return redirect(url_for('append'))
             login_user(myrecord)
-            next = request.args.get('next')
-            if next is None or not next.startswith('/'):
-                next = url_for('index')
+            # next = request.args.get('next')
+            # if next is None or not next.startswith('/'):
+            #     next = url_for('index')
             return redirect(url_for('append'))
     cas_login_url = cas_client.get_login_url(service_url=app_login_url)
     return redirect(cas_login_url)
