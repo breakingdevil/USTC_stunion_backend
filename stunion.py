@@ -9,7 +9,7 @@ from wtforms.validators import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_required, fresh_login_required,login_user, login_fresh, login_url, LoginManager, UserMixin, logout_user, current_user
+from flask_login import login_required, fresh_login_required, login_user, login_fresh, login_url, LoginManager, UserMixin, logout_user, current_user
 from threading import Thread
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
@@ -28,9 +28,9 @@ app.config['MAIL_USE_TLS'] = False  # 启用安全传输层协议
 app.config['MAIL_USERNAME'] = "system@maglee.me"  # 从系统环境变量加载用户名和密码
 app.config['MAIL_PASSWORD'] = "DoYouLoveUSTC1.2."
 
-#app_login_url = 'https://stunion.ustc.edu.cn/caslogin'
-#cas_url = 'https://passport.ustc.edu.cn'
-#cas_client = CASClient(cas_url, auth_prefix='', session_storage_adapter=MemcachedCASSessionAdapter)
+# app_login_url = 'https://stunion.ustc.edu.cn/caslogin'
+# cas_url = 'https://passport.ustc.edu.cn'
+# cas_client = CASClient(cas_url, auth_prefix='', session_storage_adapter=MemcachedCASSessionAdapter)
 
 mail = Mail(app)
 login_manager = LoginManager(app)
@@ -658,7 +658,7 @@ def confirm(token):
 
 
 @app.route('/unconfirmed')
-@fresh_login_required 
+@fresh_login_required
 def unconfirmed():
     if current_user.is_anonymous or current_user.userStatus:
         return redirect(url_for('index'))
@@ -767,9 +767,8 @@ class appendUserDataForm(FlaskForm):
             raise ValidationError('电子邮箱已经注册')
 
 
-
 @app.route('/append', methods=['GET', 'POST'])
-@fresh_login_required 
+@fresh_login_required
 def append():
     myrecord = User.query.filter_by(userSchoolNum=current_user.userSchoolNum).first()
     if myrecord is None:
@@ -820,12 +819,12 @@ def caslogin():
                 db.session.commit()
                 newuser = User.query.filter_by(userSchoolNum=cas_response.user).first()
                 login_user(newuser)
-                #cas_client.session_exists(ticket)
-                #cas_client.delete_session(ticket)
+                # cas_client.session_exists(ticket)
+                # cas_client.delete_session(ticket)
                 return redirect(url_for('append'))
             login_user(myrecord)
-            #cas_client.session_exists(ticket)
-            #cas_client.delete_session(ticket)
+            # cas_client.session_exists(ticket)
+            # cas_client.delete_session(ticket)
             return redirect(url_for('append'))
     cas_login_url = cas_client.get_login_url(service_url=app_login_url)
     return redirect(cas_login_url)
