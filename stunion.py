@@ -337,7 +337,7 @@ def girl():
 @fresh_login_required
 def boy():
     if current_user.userSex == 0:
-        flash("女同学不同进来")
+        flash("女同学不能进来")
         return redirect(url_for("index"))
     if timelimit == 1 and not checkTimeLimit():
         flash("活动尚未开始")
