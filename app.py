@@ -347,8 +347,7 @@ def girl():
         mywish = wishdatebase.query.filter_by(userEmail=current_user.userEmail,
                                               userSchoolNum=current_user.userSchoolNum).first()
         if mywish.boySchoolNum is not None:
-            tempwish = mywish
-            tempwish.boySchoolNum = tempwish.boySchoolNum[:-4] + "****"
+            mywish.boySchoolNum = mywish.boySchoolNum[:-4] + "****"
     return render_template('girl.html', form=form, mywish=mywish, userStatus=current_user.userStatus)
 
 
@@ -501,6 +500,7 @@ def boy():
         myselectwish = wishdatebase.query.filter_by(userEmail=myrecord.girlEmail).first()
         wishes = []
         magiccode = 0
+        myselectwish.userSchoolNum = myselectwish.userSchoolNum[:-4] + "****"
         return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
                                finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes,
                                magiccode=magiccode, userStatus=current_user.userStatus)
