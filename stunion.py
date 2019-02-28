@@ -29,17 +29,13 @@ app.config['MAIL_USE_TLS'] = False  # 启用安全传输层协议
 app.config['MAIL_USERNAME'] = "system@maglee.me"  # 从系统环境变量加载用户名和密码
 app.config['MAIL_PASSWORD'] = "DoYouLoveUSTC1.2."
 
-# app_login_url = 'https://stunion.ustc.edu.cn/caslogin'
-# cas_url = 'https://passport.ustc.edu.cn'
-# cas_client = CASClient(cas_url, auth_prefix='', session_storage_adapter=MemcachedCASSessionAdapter)
-
 mail = Mail(app)
 login_manager = LoginManager(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 db = SQLAlchemy(app)
 login_manager.session_protection = "strong"
-timelimit = 0
+timelimit = 1
 
 NOT_START_STRING = "活动尚未开始。"
 NOT_ACTIVATE_STRING = "对不起，你的账户还未激活！"
@@ -139,7 +135,8 @@ class User(UserMixin, db.Model):
 
 @login_manager.user_loader
 def loadUser(user_id):
-    return User.query.get(int(user_id))
+    print("loadUser: user_id =", user_id)
+    return User.query.filter_by(id=int(user_id)).first()
 
 
 #############################################################################
@@ -218,7 +215,7 @@ def sayLoveU():
         else:
             alltoUserRecord = User.query.filter_by(userRealName=toName).count()
             if alltoUserRecord > 1:
-                flash("很抱歉，此位同学已有人告白，如果你喜欢 ta 请当面说吧！")
+                flash("对不起啊同学，你要表白的这个名字的同学不止一个，如果你喜欢 ta 请当面说吧！")
                 return redirect(url_for('index'))
             toUserLove = sayLoveUDatabase.query.filter_by(fromEmail=toUserRecord.userEmail, userStatus=1).first()
             toPersonLoveinfo = toUserLove
@@ -643,8 +640,7 @@ def login():
 def logout():
     logout_user()
     cas_logout_url = cas_client.get_logout_url(service_url=app_login_url)
-    flash("你成功登出账户!")
-    return redirect(cas_logout_url)
+    return redirect("http://passport.ustc.edu.cn/logout")
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -697,7 +693,7 @@ def confirm(token):
 
 
 @app.route('/unconfirmed')
-@fresh_login_required
+@login_required
 def unconfirmed():
     if current_user.is_anonymous or current_user.userStatus:
         return redirect(url_for('index'))

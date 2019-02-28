@@ -11,7 +11,7 @@
 				<h4 class="alert-heading">Oh!!! 你的用户还处于未激活状态!</h4>
 				<p>为了提高活动的真实有趣性,我们必须要确认所有的用户都是实名用户。你想完整的体验活动，务必请激活你的账户。如果你不激活你的账户，你的一切行为将被服务器无限期挂起!</p>
 				<hr>
-				<p class="mb-0">更多关于激活账户的信息点我查看!<a href="{{ url_for('unconfirmed') }}">点击这里激活账户</a></p>
+				<p class="mb-0">更多关于激活账户的信息点我查看！<a href="{{ url_for('unconfirmed') }}">点击这里激活账户</a></p>
 			</div>
 			<br>
 		{% endif %}
@@ -26,8 +26,11 @@
 				</div>
 			</div>
 			<br>
-			<div class="alert alert-warning alert-dismissible fade show" role="alert">hi，同学</strong> 你的愿望未被选取，可以再次提交你的愿望来修改你的愿望.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
-			</button>
+			<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                你的愿望暂时还没被选中呢，你可以继续等待，也可以重新提交一个愿望来代替它。
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
 			</div>
 			<br>
 			{{ render_form(form) }}
@@ -48,7 +51,7 @@
 				<div class="card-header">男生信息</div>
 				<div class="card-body">
 					<h5 class="card-title"><a href="mailto:{{ mywish.boyEmail }}">{{ mywish.boyEmail }}</a></h5>
-					<p class="card-text"> 对方正在实现你的愿望，有什么疑问可以直接联系对方哦.</p>
+					<p class="card-text"> 对方正在实现你的愿望，有什么疑问可以直接联系对方哦。</p>
 				</div>
 			</div>
 			<br>
@@ -77,7 +80,9 @@
 		<br>
 		<div class="alert alert-warning" role="alert">
 			<h4 class="alert-heading">你还没有许愿呢！快来许个愿望吧！</h4>
-			<p>你许愿之后系统将会记录你的愿望并且将愿望放入愿望池中等待被抽中！</p><hr><p class="mb-0">我们每个人都盼望着美好的事情发生!.</p>
+            <p>许愿之后,系统将会记录你的愿望并且将愿望放入愿望池,等待被抽中！</p>
+            <hr>
+            <p class="mb-0">我们每个人都期待着你的愿望被实现的那一刻!</p>
 			</div>
 		<br>
 	{{ render_form(form) }}
