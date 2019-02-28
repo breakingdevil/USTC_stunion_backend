@@ -346,6 +346,9 @@ def girl():
         db.session.commit()
         mywish = wishdatebase.query.filter_by(userEmail=current_user.userEmail,
                                               userSchoolNum=current_user.userSchoolNum).first()
+        if mywish.boySchoolNum is not None:
+            tempwish = mywish
+            tempwish.boySchoolNum = tempwish.boySchoolNum[:-4] + "****"
     return render_template('girl.html', form=form, mywish=mywish, userStatus=current_user.userStatus)
 
 
