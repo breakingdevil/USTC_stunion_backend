@@ -582,6 +582,7 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('注册')
 
     def validate_email(self, field):
+        field.data = field.data.strip()
         if not field.data.endswith("@mail.ustc.edu.cn") and not field.data.endswith("@ustc.edu.cn"):
             raise ValidationError('请使用 @mail.ustc.edu.cn 或者 @ustc.edu.cn')
         user = User.query.filter_by(userEmail=field.data).first()
@@ -814,6 +815,7 @@ class appendUserDataForm(FlaskForm):
     submit = SubmitField('补全资料')
 
     def validate_email(self, field):
+        field.data = field.data.strip()
         if not field.data.endswith("@mail.ustc.edu.cn") and not field.data.endswith("@ustc.edu.cn"):
             raise ValidationError('请使用 @mail.ustc.edu.cn 或者 @ustc.edu.cn')
         user = User.query.filter_by(userEmail=field.data).first()
