@@ -652,11 +652,11 @@ def login():
 
 
 @app.route('/logout')
-@login_required
+@fresh_login_required
 def logout():
     logout_user()
     cas_logout_url = cas_client.get_logout_url(service_url=app_login_url)
-    return redirect("http://passport.ustc.edu.cn/logout")
+    return redirect("https://passport.ustc.edu.cn/logout")
 
 
 @app.route('/register', methods=['GET', 'POST'])
