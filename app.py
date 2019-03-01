@@ -1,4 +1,8 @@
 import os
+from threading import Thread
+from datetime import datetime
+from sh.contrib import git
+
 from flask import *
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
@@ -11,9 +15,7 @@ from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, fresh_login_required, login_user, login_fresh, login_url, LoginManager, \
     UserMixin, logout_user, current_user
-from threading import Thread
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from datetime import datetime
 from cas_client import *
 
 basedir = os.path.dirname(os.path.abspath(__file__))
@@ -69,6 +71,15 @@ def simpleSendMail(app, msg):
     thr = Thread(target=sendMailSyncFuc, args=[app, msg])
     thr.start()
     return thr
+
+
+@app.context_processor
+def git_revision():
+    # dat = [hash, author, subject]
+    dat = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
+    a = {'git_revision': "Revision {}".format(dat[0][:7])}
+    print(a)
+    return a
 
 
 class User(UserMixin, db.Model):
