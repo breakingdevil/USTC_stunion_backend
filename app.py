@@ -625,6 +625,7 @@ def internal_server_error(e):
 
 @app.route('/index')
 @app.route('/', methods=['GET', 'POST'])
+@fresh_login_required
 def index():
     if current_user.is_anonymous:
         return render_template('index.html', userStatus=1)
