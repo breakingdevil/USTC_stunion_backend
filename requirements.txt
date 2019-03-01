@@ -5,6 +5,7 @@ Flask_WTF
 Flask_SQLAlchemy
 Flask-Mail
 Flask-Login
+Flask-Talisman
 mysqlclient
 PyCryptodome
 requests

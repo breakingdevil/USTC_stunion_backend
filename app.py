@@ -5,6 +5,7 @@ from sh.contrib import git
 
 from flask import *
 from flask_bootstrap import Bootstrap
+from flask_talisman import Talisman
 from flask_moment import Moment
 from flask_wtf import FlaskForm
 from wtforms import *
@@ -21,6 +22,7 @@ from cas_client import *
 basedir = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
+Talisman(app)
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://flask:ag@bf(*&^^@v320*e@localhost/stunion?charset=utf8"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
