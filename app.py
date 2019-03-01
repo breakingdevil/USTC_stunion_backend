@@ -660,7 +660,7 @@ def login():
 @fresh_login_required
 def logout():
     logout_user()
-    cas_logout_url = cas_client.get_logout_url(service_url=app_login_url)
+    # cas_logout_url = cas_client.get_logout_url(service_url=app_login_url)
     return redirect("https://passport.ustc.edu.cn/logout")
 
 
