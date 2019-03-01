@@ -546,15 +546,11 @@ def boy():
     mywishesid = [x for x in mywishesid if x]
 
     magiccode = 1
-    count = 1
     for peremail in mywishesid:
         if peremail is None:
             continue
         onewish = wishDatabase.query.filter_by(userEmail=peremail).first()
-        content = "------这个是第 %d 号愿望------\n" % count + onewish.wishcontent
-        count += 1
-        onewish.wishcontent = content
-        wishes.append(onewish)
+        content = onewish.wishcontent
     return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
                            finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes, magiccode=magiccode,
                            userStatus=current_user.userStatus)
