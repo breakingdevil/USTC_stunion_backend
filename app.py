@@ -19,6 +19,9 @@ from flask_login import login_required, fresh_login_required, login_user, login_
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from cas_client import *
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 basedir = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
@@ -151,7 +154,7 @@ class User(UserMixin, db.Model):
 
 @login_manager.user_loader
 def loadUser(user_id):
-    print("loadUser: user_id =", user_id)
+    # print("loadUser: user_id =", user_id)
     return User.query.filter_by(id=int(user_id)).first()
 
 
