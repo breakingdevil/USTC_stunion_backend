@@ -318,7 +318,7 @@ def wish():
             return redirect(url_for('index'))
     if current_user.userEmail is None:
         return redirect(url_for('append'))
-    wishes = wishDatabase.query.filter_by(userStatus=1).order_by(func.random()).limit(5)
+    wishes = wishDatabase.query.filter_by(userStatus=1, wishstatus=0).order_by(func.random()).limit(5)
     if wishes.count() == 0:
         flash("还没有可以选择的愿望。")
         return render_template('wish.html', sex=sex, wishes=wishes)
