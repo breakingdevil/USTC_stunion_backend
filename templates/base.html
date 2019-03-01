@@ -83,6 +83,8 @@ Development Support:     taoky
 			{% endblock %}
 		</footer>
 	</div>
-	{{ bootstrap.load_js() }}
+	<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='popper.min.js') }}"></script>
+	<link href="{{ url_for('static', filename='bootstrap.min.css') }}" type="text/stylesheet" />
 </body>
 </html>
