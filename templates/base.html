@@ -85,6 +85,7 @@ Development Support:     taoky
 	</div>
 	<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='popper.min.js') }}"></script>
-	<link href="{{ url_for('static', filename='bootstrap.min.css') }}" type="text/stylesheet" />
+	<link rel="{{ url_for('static', filename='bootstrap.min.css') }}" type="text/stylesheet" />
+	{{ bootstrap.load_js() }}
 </body>
 </html>
