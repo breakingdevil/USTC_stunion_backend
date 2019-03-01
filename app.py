@@ -722,7 +722,7 @@ class checkemailtime(db.Model):
 def resend_confirmation():
     stamp = checkemailtime.query.filter_by(userEmail=current_user.userEmail).first()
     if stamp is None:
-        newtimestamp = checkemailtime(userEmail=current_user.userEmail, timestamp=str(datetime.now())).first()
+        newtimestamp = checkemailtime(userEmail=current_user.userEmail, timestamp=str(datetime.now()))
         db.session.add(newtimestamp)
         db.session.commit()
         token = current_user.generate_confirmation_token()
