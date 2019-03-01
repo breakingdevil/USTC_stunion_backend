@@ -257,7 +257,8 @@ def sayLoveU():
 #####################################################################################
 # 愿望实现
 
-class wishdatebase(db.Model):
+class wishDatabase(db.Model):
+    __tablename__ = "wishes"
     userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
     userStatus = db.Column(db.Integer, nullable=True)
     userSchoolNum = db.Column(db.String(64), nullable=True)
@@ -317,7 +318,7 @@ def wish():
             return redirect(url_for('index'))
     if current_user.userEmail is None:
         return redirect(url_for('append'))
-    wishes = wishdatebase.query.filter_by(userStatus=1).order_by(func.random()).limit(5)
+    wishes = wishDatabase.query.filter_by(userStatus=1).order_by(func.random()).limit(5)
     if wishes.count() == 0:
         flash("还没有可以选择的愿望。")
         return render_template('wish.html', sex=sex, wishes=wishes)
@@ -338,10 +339,10 @@ def girl():
         return redirect(url_for('append'))
     if form.validate_on_submit():
         wishtext = form.wishText.data
-        record = wishdatebase.query.filter_by(userEmail=current_user.userEmail,
+        record = wishDatabase.query.filter_by(userEmail=current_user.userEmail,
                                               userSchoolNum=current_user.userSchoolNum).first()
         if record is None:
-            mywish = wishdatebase(userEmail=current_user.userEmail, wishcontent=wishtext, wishstatus=0,
+            mywish = wishDatabase(userEmail=current_user.userEmail, wishcontent=wishtext, wishstatus=0,
                                   girlQQnum=current_user.userQQnum, userStatus=current_user.userStatus,
                                   userSchoolNum=current_user.userSchoolNum)
             db.session.add(mywish)
@@ -357,13 +358,13 @@ def girl():
                 return redirect(url_for('girl'))
             flash("对不起，你的愿望已经被选取！")
             return redirect(url_for('girl'))
-    mywish = wishdatebase.query.filter_by(userEmail=current_user.userEmail,
+    mywish = wishDatabase.query.filter_by(userEmail=current_user.userEmail,
                                           userSchoolNum=current_user.userSchoolNum).first()
     if mywish is not None:
         mywish.userStatus = current_user.userStatus
         db.session.add(mywish)
         db.session.commit()
-        mywish = wishdatebase.query.filter_by(userEmail=current_user.userEmail,
+        mywish = wishDatabase.query.filter_by(userEmail=current_user.userEmail,
                                               userSchoolNum=current_user.userSchoolNum).first()
         if mywish.boySchoolNum is not None:
             mywish.boySchoolNum = mywish.boySchoolNum[:-4] + "****"
@@ -408,7 +409,7 @@ def boy():
         if otherselect is not None:
             flash("对不起，该愿望已经被选取。")
             return redirect(url_for('wish'))
-        girllog = wishdatebase.query.filter_by(userEmail=myselectemail).first()
+        girllog = wishDatabase.query.filter_by(userEmail=myselectemail).first()
         myrecord.wishstatus = 0
         myrecord.girlEmail = myselectemail
         myrecord.girlQQnum = girllog.girlQQnum
@@ -431,7 +432,7 @@ def boy():
             return redirect(url_for('boy'))
         myrecord = selectwishes.query.filter_by(userEmail=current_user.userEmail,
                                                 userSchoolNum=current_user.userSchoolNum).first()
-        girllog = wishdatebase.query.filter_by(userEmail=myrecord.girlEmail).first()
+        girllog = wishDatabase.query.filter_by(userEmail=myrecord.girlEmail).first()
         if (myrecord is not None) and (girllog is not None):
             myrecord.wishstatus = 1
             girllog.wishstatus = 2
@@ -450,7 +451,7 @@ def boy():
             flash(NOT_ACTIVATE_STRING)
             return redirect(url_for('boy'))
         if myrecord.lastupdatetime is None:
-            wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
+            wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
             if wishes.count() == 0:
                 flash("当前没有可以被选取的愿望。")
                 return redirect(url_for('boy'))
@@ -465,7 +466,7 @@ def boy():
         nowtime = datetime.now()
         lastupdatetime = datetime.strptime(myrecord.lastupdatetime, "%Y-%m-%d %H:%M:%S.%f")
         if (nowtime - lastupdatetime).days >= 1:
-            wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
+            wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
             if wishes.count() == 0:
                 flash("没有可以被选取的愿望。")
                 return redirect(url_for('boy'))
@@ -491,7 +492,7 @@ def boy():
     myrecord = selectwishes.query.filter_by(userEmail=current_user.userEmail,
                                             userSchoolNum=current_user.userSchoolNum).first()
     if myrecord.cashid is None:
-        wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
+        wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
         if wishes.count() == 0:
             flash("没有可以被选取的愿望。")
             return redirect(url_for('wish'))
@@ -510,7 +511,7 @@ def boy():
     if current_user.userStatus == 0:
         flash(NOT_ACTIVATE_STRING)
     if myrecord.wishstatus == 0:
-        myselectwish = wishdatebase.query.filter_by(userEmail=myrecord.girlEmail).first()
+        myselectwish = wishDatabase.query.filter_by(userEmail=myrecord.girlEmail).first()
         wishes = []
         magiccode = 0
 
@@ -518,7 +519,7 @@ def boy():
                                finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes,
                                magiccode=magiccode, userStatus=current_user.userStatus)
     if myrecord.wishstatus == 1:
-        myselectwish = wishdatebase.query.filter_by(userEmail=myrecord.girlEmail).first()
+        myselectwish = wishDatabase.query.filter_by(userEmail=myrecord.girlEmail).first()
         wishes = []
         magiccode = 0
         myselectwish.userSchoolNum = myselectwish.userSchoolNum[:-4] + "****"
@@ -528,7 +529,7 @@ def boy():
     lasttime = datetime.strptime(str(myrecord.lastviewtime), "%Y-%m-%d %H:%M:%S.%f")
     nowtime = datetime.now()
     if (nowtime - lasttime).days >= 1:
-        wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
+        wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
         if wishes.count() == 0:
             flash("没有可以被选取的愿望")
         mystr = ";".join([wish.userEmail for wish in wishes if wish.userEmail])
@@ -548,7 +549,7 @@ def boy():
     for peremail in mywishesid:
         if peremail is None:
             continue
-        onewish = wishdatebase.query.filter_by(userEmail=peremail).first()
+        onewish = wishDatabase.query.filter_by(userEmail=peremail).first()
         cpofonewish = onewish
         content = "------这个是第%d号愿望------" % count
         count += 1
