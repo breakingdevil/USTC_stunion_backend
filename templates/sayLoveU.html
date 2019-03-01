@@ -16,7 +16,7 @@
 		{% endif %}
 		{% if pairedStatus %}
 			<br>
-			<div class="alert alert-info" role="alert">
+			<div class="alert alert-info" role="alert" id="match-success">
 				<h4 class="alert-heading">配对成功!!!</h4>
 				<p>Congratulations! 配对成功！在此页面你和对方都能看到对方的联系方式！</p>
 				<hr>
@@ -77,4 +77,12 @@
 		<br>
 		{{ render_form(form) }}
 	{% endif %}
+
+<style>
+#match-success {
+    background-color: #FFE0ED;
+    border-color: #DB7093;
+    color: #D12593;
+}
+</style>
 {% endblock %}
