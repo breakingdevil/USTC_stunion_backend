@@ -50,8 +50,8 @@ GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
 def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
-    starttime = datetime(2019, 3, 7, 0, 0, 0, 0)
-    endtime = datetime(2019, 3, 10, 0, 0, 0, 0)
+    starttime = datetime(2019, 3, 1, 20, 0, 0, 0)
+    endtime = datetime(2019, 3, 14, 0, 0, 0, 0)
     return starttime <= nowtime < endtime
 
 
