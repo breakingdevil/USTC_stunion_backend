@@ -543,7 +543,9 @@ def boy():
                                                 userSchoolNum=current_user.userSchoolNum).first()
     wishes = []
     mywishesid = myselectwish.cashid.split(";")
-    mywishesid.remove("")
+    if "" in mywishesid:
+        mywishesid.remove("")
+    
     magiccode = 1
     count = 1
     for peremail in mywishesid:
