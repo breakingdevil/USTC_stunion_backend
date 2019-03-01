@@ -885,5 +885,10 @@ def caslogin():
     return redirect(cas_login_url)
 
 
+@app.route('/faq', methods=['GET', 'POST'])
+def faq():
+    return render_template("faq.html")
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
