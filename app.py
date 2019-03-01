@@ -22,7 +22,11 @@ from cas_client import *
 basedir = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
-Talisman(app)
+Talisman(app, content_security_policy={
+    'default-src': "*",
+    'style-src': "'self' http://* 'unsafe-inline'",
+    'script-src': "'self' http://* 'unsafe-inline' 'unsafe-eval'"
+})
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://flask:ag@bf(*&^^@v320*e@localhost/stunion?charset=utf8"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
