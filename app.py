@@ -663,7 +663,7 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         newuserpassword = form.password.data
-        newuseremail = form.email.data
+        newuseremail = form.email.data.strip()
         newusersex = form.sex.data
         newuserQQnum = form.QQnum.data
         newuserschoolnum = form.schoolnum.data
