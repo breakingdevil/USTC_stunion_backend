@@ -400,7 +400,7 @@ def boy():
             flash("对不起，你已经选取了愿望。")
             return redirect(url_for('boy'))
         mycash = myrecord.cashid.split(";")
-        mycash.remove("")
+        mycash = [x for x in mycash if x]
         if wishid > len(mycash) or wishid < 0:
             flash("对不起，选择愿望序号有误。")
             return redirect(url_for("boy"))
@@ -543,9 +543,8 @@ def boy():
                                                 userSchoolNum=current_user.userSchoolNum).first()
     wishes = []
     mywishesid = myselectwish.cashid.split(";")
-    if "" in mywishesid:
-        mywishesid.remove("")
-    
+    mywishesid = [x for x in mywishesid if x]
+
     magiccode = 1
     count = 1
     for peremail in mywishesid:
