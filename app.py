@@ -165,7 +165,7 @@ def loadUser(user_id):
 class sayLoveUDatabase(db.Model):
     __tablename__ = 'sayLoveU'
     fromEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
-    fromSayText = db.Column(db.String(256), nullable=True)
+    fromSayText = db.Column(db.String(1000), nullable=True)
     toRealname = db.Column(db.String(128), nullable=True)
     userStatus = db.Column(db.Integer, nullable=True)
 
@@ -263,7 +263,7 @@ class wishDatabase(db.Model):
     userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
     userStatus = db.Column(db.Integer, nullable=True)
     userSchoolNum = db.Column(db.String(64), nullable=True)
-    wishcontent = db.Column(db.String(256), nullable=True)
+    wishcontent = db.Column(db.String(1000), nullable=True)
     wishstatus = db.Column(db.Integer, nullable=True)
     # 0 未选取 1 已选取 2 已完成
     wishid = db.Column(db.Integer, nullable=True)
@@ -303,7 +303,7 @@ class selectwishes(db.Model):
     selecttime = db.Column(db.String(64), nullable=True)
     lastviewtime = db.Column(db.String(64), nullable=True)
     lastupdatetime = db.Column(db.String(64), nullable=True)
-    cashid = db.Column(db.String(256), nullable=True)
+    cashid = db.Column(db.String(1000), nullable=True)
     userStatus = db.Column(db.Integer, nullable=True)
 
 
