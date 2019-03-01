@@ -107,6 +107,7 @@ class User(UserMixin, db.Model):
     userCellPhoneNum = db.Column(db.String(64), nullable=True)
     userOpenid = db.Column(db.String(256), nullable=True)
     userPasswordHash = db.Column(db.String(256), nullable=True)
+    userSecretText = db.Column(db.String(64), nullable=True)
 
     def setPassword(self, password):
         self.userPasswordHash = generate_password_hash(password)
@@ -309,16 +310,15 @@ class selectwishes(db.Model):
 @app.route('/wish', methods=['GET', 'POST'])
 @fresh_login_required
 def wish():
-    sex = 0
     sex = current_user.userSex
-    if timelimit == 1:
+    if timelimit:
         sign = checkTimeLimit()
         if not sign:
             flash(NOT_START_STRING)
             return redirect(url_for('index'))
     if current_user.userEmail is None:
         return redirect(url_for('append'))
-    wishes = wishDatabase.query.filter_by(userStatus=1, wishstatus=0).order_by(func.random()).limit(5)
+    wishes = wishDatabase.query.filter_by(userStatus=1).order_by(func.random()).limit(5)
     if wishes.count() == 0:
         flash("还没有可以选择的愿望。")
         return render_template('wish.html', sex=sex, wishes=wishes)
