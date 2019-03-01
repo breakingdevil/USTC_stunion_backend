@@ -448,13 +448,11 @@ def boy():
             return redirect(url_for('boy'))
         if myrecord.lastupdatetime is None:
             wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
-            mystr = ""
             if wishes.count() == 0:
                 flash("当前没有可以被选取的愿望。")
                 return redirect(url_for('boy'))
-            for wish in wishes:
-                mystr += wish.userEmail + ";"
-            if mystr != "":
+            mystr = ";".join([wish.userEmail for wish in wishes if wish.userEmail])
+            if mystr:
                 myrecord.cashid = mystr
             myrecord.lastupdatetime = str(datetime.now())
             db.session.add(myrecord)
@@ -468,10 +466,8 @@ def boy():
             if wishes.count() == 0:
                 flash("没有可以被选取的愿望。")
                 return redirect(url_for('boy'))
-            mystr = ""
-            for wish in wishes:
-                mystr += wish.userEmail + ";"
-            if mystr != "":
+            mystr = ";".join([wish.userEmail for wish in wishes if wish.userEmail])
+            if mystr:
                 myrecord.cashid = mystr
             myrecord.lastupdatetime = str(nowtime)
             db.session.add(myrecord)
@@ -496,10 +492,8 @@ def boy():
         if wishes.count() == 0:
             flash("没有可以被选取的愿望。")
             return redirect(url_for('wish'))
-        mystr = ""
-        for wish in wishes:
-            mystr += wish.userEmail + ";"
-        if mystr != "":
+        mystr = ";".join([wish.userEmail for wish in wishes if wish.userEmail])
+        if mystr:
             myrecord.cashid = mystr
         myrecord.lastviewtime = str(datetime.now())
         db.session.add(myrecord)
@@ -534,10 +528,8 @@ def boy():
         wishes = wishdatebase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
         if wishes.count() == 0:
             flash("没有可以被选取的愿望")
-        mystr = ""
-        for wish in wishes:
-            mystr += wish.userEmail + ";"
-        if mystr != "":
+        mystr = ";".join([wish.userEmail for wish in wishes if wish.userEmail])
+        if mystr:
             myrecord.cashid = mystr
             myrecord.lastviewtime = str(datetime.now())
         db.session.add(myrecord)
@@ -632,7 +624,6 @@ def internal_server_error(e):
 
 @app.route('/index')
 @app.route('/', methods=['GET', 'POST'])
-@fresh_login_required
 def index():
     if current_user.is_anonymous:
         return render_template('index.html', userStatus=1)
