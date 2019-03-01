@@ -44,6 +44,8 @@ NOT_ACTIVATE_STRING = "对不起，你的账户还未激活！"
 FEMALE = 0
 MALE = 1
 
+GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
+
 
 def checkTimeLimit():
     # 返回1则正在活动
@@ -75,11 +77,7 @@ def simpleSendMail(app, msg):
 
 @app.context_processor
 def git_revision():
-    # dat = [hash, author, subject]
-    dat = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
-    a = {'git_revision': "Revision {}".format(dat[0][:7])}
-    print(a)
-    return a
+    return {'git_revision': "Revision {}".format(GIT_DATA[0][:7])}
 
 
 class User(UserMixin, db.Model):
@@ -511,7 +509,7 @@ def boy():
         myselectwish = wishdatebase.query.filter_by(userEmail=myrecord.girlEmail).first()
         wishes = []
         magiccode = 0
-        
+
         return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
                                finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes,
                                magiccode=magiccode, userStatus=current_user.userStatus)
