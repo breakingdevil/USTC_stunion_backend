@@ -469,7 +469,7 @@ def boy():
             return redirect(url_for('boy'))
         nowtime = datetime.now()
         lastupdatetime = datetime.strptime(myrecord.lastupdatetime, "%Y-%m-%d %H:%M:%S.%f")
-        if (nowtime - lastupdatetime).days >= 1:
+        if (nowtime - lastupdatetime).total_seconds() >= 6 * 3600:  # 6 hours
             wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
             if wishes.count() == 0:
                 flash("没有可以被选取的愿望。")
@@ -532,7 +532,7 @@ def boy():
                                magiccode=magiccode, userStatus=current_user.userStatus)
     lasttime = datetime.strptime(str(myrecord.lastviewtime), "%Y-%m-%d %H:%M:%S.%f")
     nowtime = datetime.now()
-    if (nowtime - lasttime).days >= 1:
+    if (nowtime - lastupdatetime).total_seconds() >= 6 * 3600:  # 6 hours
         wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
         if wishes.count() == 0:
             flash("没有可以被选取的愿望")
