@@ -15,7 +15,7 @@
 			</div>
 			<br>
 		{% endif %}
-		{% if mywish.wishstatus == 0%}
+		{% if mywish.wishstatus == 0 or mywish.wishstatus == 3 %}
 			<br>
 			<span class="badge badge-pill badge-primary">未被选取</span>
 			<div class="card border-primary mb-3" style="max-width: 36rem;">
@@ -36,7 +36,7 @@
 			{{ render_form(form) }}
 		{% endif%}
 		
-		{% if mywish.wishstatus == 1%}
+		{% if mywish.wishstatus == 1 %}
 			<br>
 			<span class="badge badge-warning">已被选取</span>
 			<div class="card border-warning mb-3" style="max-width: 36rem;">
