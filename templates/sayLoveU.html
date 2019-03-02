@@ -28,7 +28,9 @@
 				<div class="card-header">你告白的对象: {{ fromPersonLoveinfo.toRealname }}</div>
 				<div class="card-body text-warning">
 					<h5 class="card-title">内容：</h5>
-					<p class="card-text">{{ fromPersonLoveinfo.fromSayText }}</p>
+					{% for line in fromPersonLoveinfo.fromSayText.split("\n") %}
+						<p class="card-text">{{ line }}</p>
+					{% endfor %}
 				</div>
 			</div>
 			<br>
@@ -37,7 +39,9 @@
 				<div class="card-header">对方写给你的: {{ toPersonLoveinfo.toRealname }}</div>
 				<div class="card-body text-warning">
 					<h5 class="card-title">内容：</h5>
-					<p class="card-text">{{ toPersonLoveinfo.fromSayText }}</p>
+					{% for line in toPersonLoveinfo.fromSayText.split("\n") %}
+						<p class="card-text">{{ line }}</p>
+					{% endfor %}
 				</div>
 			</div>
 			<br>
@@ -63,7 +67,9 @@
 				<div class="card-header">你告白的对象: {{ fromPersonLoveinfo.toRealname }}</div>
 				<div class="card-body text-warning">
 					<h5 class="card-title">内容:</h5>
-					<p class="card-text">{{ fromPersonLoveinfo.fromSayText }}</p>
+					{% for line in fromPersonLoveinfo.fromSayText.split("\n") %}
+						<p class="card-text">{{ line }}</p>
+					{% endfor %}
 				</div>
 			</div>
 			<br>
