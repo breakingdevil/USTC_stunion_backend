@@ -411,7 +411,7 @@ def boy():
         if otherselect is not None:
             flash("对不起，该愿望已经被选取。")
             return redirect(url_for('wish'))
-        girllog = wishDatabase.query.filter_by(userEmail=myselectemail,wishstatus=0).first()
+        girllog = wishDatabase.query.filter_by(userEmail=myselectemail, wishstatus=0).first()
         if girllog is None:
             flash("对不起,不能选择该愿望")
             return redirect(url_for('wish'))
