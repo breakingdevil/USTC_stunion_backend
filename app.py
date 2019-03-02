@@ -356,6 +356,8 @@ def girl():
                 db.session.commit()
                 flash("修改愿望成功！")
                 return redirect(url_for('girl'))
+            elif record.wishstatus == 3:
+                return render_template('500.html'), 500
             flash("对不起，你的愿望已经被选取！")
             return redirect(url_for('girl'))
     mywish = wishDatabase.query.filter_by(userEmail=current_user.userEmail,
