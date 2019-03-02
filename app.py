@@ -482,7 +482,7 @@ def boy():
             db.session.commit()
             flash("刷新愿望成功。")
             return redirect(url_for('boy'))
-        flash("每 24 小时只允许刷新一次。")
+        flash("每 6 小时只允许刷新一次。")
         return redirect(url_for('boy'))
     if myrecord is None:
         myrecord = selectwishes(userEmail=current_user.userEmail, userStatus=current_user.userStatus,
@@ -532,7 +532,7 @@ def boy():
                                magiccode=magiccode, userStatus=current_user.userStatus)
     lasttime = datetime.strptime(str(myrecord.lastviewtime), "%Y-%m-%d %H:%M:%S.%f")
     nowtime = datetime.now()
-    if (nowtime - lastupdatetime).total_seconds() >= 6 * 3600:  # 6 hours
+    if (nowtime - lasttime).total_seconds() >= 6 * 3600:  # 6 hours
         wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
         if wishes.count() == 0:
             flash("没有可以被选取的愿望")
