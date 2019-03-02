@@ -19,9 +19,8 @@
 			<br>
 			<span class="badge badge-pill badge-primary">未被选取</span>
 			<div class="card border-primary mb-3" style="max-width: 36rem;">
-				<div class="card-header">愿望卡</div>
+				<div class="card-header">我的愿望卡</div>
 				<div class="card-body text-primary">
-					<h5 class="card-title">愿望</h5>
 					<p class="card-text">{{ mywish.wishcontent }}</p>
 				</div>
 			</div>
@@ -40,9 +39,8 @@
 			<br>
 			<span class="badge badge-warning">已被选取</span>
 			<div class="card border-warning mb-3" style="max-width: 36rem;">
-				<div class="card-header">愿望卡</div>
+				<div class="card-header">我的愿望卡</div>
 				<div class="card-body text-warning">
-					<h5 class="card-title">愿望</h5>
 					<p class="card-text">{{ mywish.wishcontent }}</p>
 				</div>
 			</div>
@@ -61,9 +59,8 @@
 			<br>
 			<span class="badge badge-pill badge-success">已实现</span>
 			<div class="card border-success mb-3" style="max-width: 36rem;">
-				<div class="card-header">你的愿望</div>
+				<div class="card-header">我的愿望</div>
 				<div class="card-body text-success">
-					<h5 class="card-title">内容</h5>
 					<p class="card-text">{{ mywish.wishcontent }}</p>
 				</div>
 			</div>
@@ -72,7 +69,13 @@
 				<div class="card-header">祝贺你</div>
 				<div class="card-body">
 					<h5 class="card-title"> 对方实现了你的愿望 </h5>
-					<p class="card-text">对方的邮箱: <a href="mailto:{{ mywish.boyEmail }}">{{ mywish.boyEmail }}</a><br> 对方学号：{{ mywish.boySchoolNum }} <br>对方的 QQ 号：{{ mywish.boyQQnum }}<br>赶快联系他吧! </p>
+					<p class="card-text">对方的邮箱: <a href="mailto:{{ mywish.boyEmail }}">{{ mywish.boyEmail }}</a>
+					<br>
+					对方学号：{{ mywish.boySchoolNum }}
+					<br>
+					对方的 QQ 号：{{ mywish.boyQQnum }}
+					</p>
+					<p>赶快联系他吧! </p>
 				</div>
 			</div>
 		{% endif %}
