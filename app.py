@@ -100,8 +100,8 @@ class User(UserMixin, db.Model):
     # userStatus == 1 已经激活
     userAccountLevel = db.Column(db.Integer, nullable=True)
     userRealName = db.Column(db.String(128), nullable=True)
-    userSchoolNum = db.Column(db.String(64), nullable=True)
-    userQQnum = db.Column(db.String(64), nullable=True)
+    userSchoolNum = db.Column(db.String(64), unique=True, nullable=True)
+    userQQnum = db.Column(db.String(64), unique=True, nullable=True)
     userSex = db.Column(db.Integer, nullable=True)
     userWeChatNum = db.Column(db.String(64), nullable=True)
     userCellPhoneNum = db.Column(db.String(64), nullable=True)
@@ -190,6 +190,10 @@ def sayLoveU():
 
     if form.validate_on_submit():
         toRealname = form.toRealname.data
+        if toRealname == current_user.userRealName:
+            flash("告白成功……等等，就算您再弯也不至于成环吧？")
+            return redirect(url_for('sayLoveU'))
+
         fromSayText = form.fromSayText.data
         fromEmail = current_user.userEmail
         record = sayLoveUDatabase(fromEmail=fromEmail, fromSayText=fromSayText, toRealname=toRealname,
