@@ -25,13 +25,11 @@
 		{% for wish in wishes %}
 			<br>
 			<div class="card border-primary mb-3" style="max-width: 48rem;">
-				<div class="card-header">愿望卡</div>
+				<div class="card-header">{{ loop.index }} 号愿望卡</div>
 				<div class="card-body text-primary">
-					<h5 class="card-title"> {{ loop.index }} 号愿望 </h5>
 					<p class="card-text">{{ wish.wishcontent }}</p>
 				</div>
 			</div>
-			<br>
 		{% endfor %}
 		{{ render_form(selectwishform) }}
 		<br>
