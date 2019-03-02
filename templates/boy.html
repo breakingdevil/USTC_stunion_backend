@@ -27,7 +27,9 @@
 			<div class="card border-primary mb-3" style="max-width: 48rem;">
 				<div class="card-header">{{ loop.index }} 号愿望卡</div>
 				<div class="card-body text-primary">
-					<p class="card-text">{{ wish.wishcontent }}</p>
+					{% for line in wish.wishcontent.split("\n") %}
+					<p class="card-text">{{ line }}</p>
+					{% endfor %}
 				</div>
 			</div>
 		{% endfor %}
