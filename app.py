@@ -190,10 +190,6 @@ def sayLoveU():
 
     if form.validate_on_submit():
         toRealname = form.toRealname.data
-        if toRealname == current_user.userRealName:
-            flash("告白成功……等等，就算您再弯也不至于成环吧？")
-            return redirect(url_for('sayLoveU'))
-
         fromSayText = form.fromSayText.data
         fromEmail = current_user.userEmail
         record = sayLoveUDatabase(fromEmail=fromEmail, fromSayText=fromSayText, toRealname=toRealname,
