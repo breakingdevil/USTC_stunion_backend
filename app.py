@@ -556,7 +556,7 @@ def boy():
             continue
         onewish = wishDatabase.query.filter_by(userEmail=peremail).first()
         wishes.append(onewish)
-    setattr(selectwishform, 'wishid', 
+    setattr(selectform, 'wishid', 
             RadioField("愿望序号", choices=[(i, "%d 号愿望" % i) for i in range(1, 1 + len(wishes))],
                        validators=[], coerce=int))
     return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
