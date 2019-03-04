@@ -25,3 +25,10 @@ run() {
   local FILE="$1"
   run_mysql -Ns < "$FILE"
 }
+
+run_all() {
+  local DIR="db_backup" file
+  for file in "$DIR"/*; do
+    :
+  done
+}
