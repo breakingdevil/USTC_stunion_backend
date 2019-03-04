@@ -7,3 +7,6 @@ DB_NAME='analysis'
 USER='analysis'
 HOST='localhost'
 PASSWORD=''
+
+# Specify output file name, has a default value if not specified
+#OUTPUT='stunion.txt'

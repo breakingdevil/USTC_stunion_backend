@@ -6,4 +6,5 @@ __pycache__/
 .idea/
 .DS_Store
 
+config.sh
 db_backup/
