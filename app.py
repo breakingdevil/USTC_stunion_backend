@@ -171,8 +171,8 @@ class sayLoveUDatabase(db.Model):
 
 
 class sayLoveUForm(FlaskForm):
-    toRealname = StringField(" 对方的真实姓名 ", validators=[DataRequired()])
-    fromSayText = TextAreaField(" 想给对方的真情告白 ", validators=[DataRequired()])
+    toRealname = StringField(" 对方的真实姓名 ", validators=[DataRequired(), length(max=120)])
+    fromSayText = TextAreaField(" 想给对方的真情告白 ", validators=[DataRequired(), length(max=1000)])
     submit = SubmitField(" 告白 ")
 
 
