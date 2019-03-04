@@ -30,13 +30,15 @@ run_all() {
   local DIR="db_backup" file
   for file in "$DIR"/*.sql; do
     # Requires MariaDB 10.1.3
-    run_mysql "CREATE OR REPLACE DATABASE $DB_NAME;"
+    # This doesn't, requires more privileges
+    #run_mysql "CREATE OR REPLACE DATABASE $DB_NAME;"
+
     # Import dump
     run_mysql <"$file"
     # Create file header
-    echo "Query results for \"${file}\":" >>"$OUTPUT"
+    echo "Query results for \"${file}\":" | tee -a "$OUTPUT"
     for query in queries/{user_count,user_type,wish_status,love_count}.sql; do
-      echo "Query \"${query##*/}\""
+      echo "Query \"${query##*/}\"" >>"$OUTPUT"
       run_mysql <"$query" >>"$OUTPUT"
     done
   done
