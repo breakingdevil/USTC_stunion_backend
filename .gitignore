@@ -1,6 +1,11 @@
+# Python
 env/
 venv/
 __pycache__/
 
+# Whatever
 .idea/
 .DS_Store
+
+# Configuration
+config.ini

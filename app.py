@@ -1,6 +1,7 @@
 import os
 from threading import Thread
 from datetime import datetime
+from configparser import RawConfigParser
 from sh.contrib import git
 
 from flask import *
@@ -22,16 +23,27 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 basedir = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
-Talisman(app, content_security_policy={
+talisman = Talisman(app, content_security_policy={
     'default-src': "*",
     'style-src': "'self' http://* 'unsafe-inline'",
     'script-src': "'self' http://* 'unsafe-inline' 'unsafe-eval'",
     'img-src': "'self' http://* 'unsafe-inline' data: *",
 })
+
+# Initialize configuration
+config_parser = RawConfigParser()
+if os.path.isfile('config.ini'):
+    config_parser.load('config.ini')
+else:
+    config_parser.load('config_sample.ini')
+config = config_parser["AppConfig"]
+
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://flask:ag@bf(*&^^@v320*e@localhost/stunion?charset=utf8"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://{}:{}@{}/{}?charset=utf8".format(
+    config['DB_USER'], config['DB_PASS'], config['DB_HOST'], config.get('DB_NAME', "kstar")
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SERVER_NAME'] = 'stunion.ustc.edu.cn'
+app.config['SERVER_NAME'] = config.get('SERVER_NAME', "stunion.ustc.edu.cn")
 
 login_manager = LoginManager(app)
 bootstrap = Bootstrap(app)
@@ -144,4 +156,4 @@ def caslogin():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=6000, debug=True)
+    app.run(host='0.0.0.0', port=int(config.get('SERVER_PORT', 6000)), debug=True)
