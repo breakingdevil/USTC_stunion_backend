@@ -1,0 +1,87 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>中国科学技术大学学生会</title>
+	<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	{{ bootstrap.load_css() }}
+</head>
+<body>
+	<nav class="navbar navbar-dark bg-primary">
+		<a class="navbar-brand" href="https://stunion.ustc.edu.cn/kstar/">中国科学技术大学学生会</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav">
+				<li class="nav-item active">
+					<a class="nav-link" href="{{ url_for('index') }}">主页 <span class="sr-only">(current)</span></a>
+				</li>
+				{% if current_user.is_authenticated %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							账户操作
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="{{ url_for('logout') }}">登出</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">最新活动
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="{{ url_for('vote') }}"> kstar投票 </a>
+						</div>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('caslogin') }}">登录</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<content>
+			<br>
+			{% for message in get_flashed_messages() %}
+				<div class="alert alert-warning">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ message }}
+				</div>
+			{% endfor %}
+			<br>
+			{% block content %}
+
+			{% endblock %}
+		</content>
+
+		<footer class="text-center" style="margin-top: 1.4em;">
+			{% block footer %}
+<!--
+Executive Producer:        USTC Student Union
+Lead Freestyle Programmer: breakingdevil
+Exhausted QA Engineer 1:   iBug
+Exhausted QA Engineer 2:   taoky
+
+谢谢各位校友的访问。谢谢大家
+
+{{ git_revision }}
+-->
+			{% endblock %}
+		</footer>
+	</div>
+	
+	<style>
+* {
+	font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+}
+	</style>
+	<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='popper.min.js') }}"></script>
+	<link rel="{{ url_for('static', filename='bootstrap.min.css') }}" type="text/stylesheet" />
+	{{ bootstrap.load_js() }}
+</body>
+</html>
