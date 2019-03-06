@@ -34,5 +34,5 @@ L          request time in decimal seconds
 p          process ID
 """
 
-accesslog = "/var/log/gunicorn_access.log"  # 访问日志文件
+accesslog = "/var/log/kstar_access.log"  # 访问日志文件
 errorlog = "/var/log/gunicorn_error.log"  # 错误日志文件
