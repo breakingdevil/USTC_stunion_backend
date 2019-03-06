@@ -19,9 +19,6 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 app = Flask(__name__)
-bp = Blueprint('kstar', __name__, template_folder='templates')
-app.register_blueprint(bp, url_prefix="/kstar")
-
 talisman = Talisman(app, content_security_policy={
     'default-src': "*",
     'style-src': "'self' http://* 'unsafe-inline'",
@@ -53,6 +50,20 @@ login_manager.session_protection = "strong"
 GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
 
 
+class PrefixMiddleware:
+    def __init__(self, app, prefix=""):
+        self.app = app
+        self.prefix = prefix
+    
+    def __call__(self, env, start_response):
+        env['PATH_INFO'] = env['PATH_INFO'][len(self.prefix):]
+        env['SCRIPT_NAME'] = self.prefix
+        return self.app(env, start_response)
+
+
+app.wsgi_app = PrefixMiddleware(app.wsgi_app, "/kstar")
+
+
 def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
@@ -61,7 +72,7 @@ def checkTimeLimit():
     return starttime <= nowtime < endtime
 
 
-@bp.context_processor
+@app.context_processor
 def git_revision():
     return {'git_revision': "Revision {}".format(GIT_DATA[0][:7])}
 
@@ -94,29 +105,29 @@ def loadUser(user_id):
     return User.query.filter_by(id=int(user_id)).first()
 
 
-@bp.errorhandler(404)
+@app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 
 
-@bp.errorhandler(401)
+@app.errorhandler(401)
 def unauthorized(e):
     flash("你尚未登录!")
     return redirect(url_for('login'))
 
 
-@bp.errorhandler(500)
+@app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
 
 
-@bp.route('/index')
-@bp.route('/', methods=['GET', 'POST'])
+@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
 
-@bp.route('/caslogin', methods=['GET', 'POST'])
+@app.route('/caslogin', methods=['GET', 'POST'])
 def caslogin():
     ticket = request.args.get('ticket')
     app_login_url = 'https://stunion.ustc.edu.cn/kstar/caslogin'
