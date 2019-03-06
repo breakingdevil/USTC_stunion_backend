@@ -130,7 +130,7 @@ def internal_server_error(e):
 @app.route('/index')
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    candidates = db.session.query(Candidate.name, func.count(Vote.target)) \
+    candidates = db.session.query(Candidate.name, func.count(Vote.target).label('vote_count')) \
                     .join(Vote, Vote.target == Candidate.id) \
                     .group_by(Vote.target) \
                     .order_by(desc(func.count(Vote.target)))

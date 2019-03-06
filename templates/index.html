@@ -32,7 +32,7 @@ var labels = [
 ];
 var data = [
 	{% for candidate in candidates -%}
-		{{ candidate.count }}
+		{{ candidate.vote_count }}
 		{%- if not loop.last -%} , {%- endif -%}
 	{%- endfor %}
 ];
