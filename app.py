@@ -34,6 +34,7 @@ else:
     config_parser.read('config_sample.ini')
 config = config_parser["AppConfig"]
 
+app.config["APPLICATION_ROOT"] = "/kstar"
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://{}:{}@{}/{}?charset=utf8".format(
     config['DB_USER'], config['DB_PASS'], config['DB_HOST'], config.get('DB_NAME', "kstar")
@@ -106,13 +107,13 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 
-@app.route('/kstar/index')
-@app.route('/kstar/', methods=['GET', 'POST'])
+@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
 
-@app.route('/kstar/caslogin', methods=['GET', 'POST'])
+@app.route('/caslogin', methods=['GET', 'POST'])
 def caslogin():
     ticket = request.args.get('ticket')
     app_login_url = 'https://stunion.ustc.edu.cn/kstar/caslogin'
