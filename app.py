@@ -33,9 +33,9 @@ talisman = Talisman(app, content_security_policy={
 # Initialize configuration
 config_parser = RawConfigParser()
 if os.path.isfile('config.ini'):
-    config_parser.load('config.ini')
+    config_parser.read('config.ini')
 else:
-    config_parser.load('config_sample.ini')
+    config_parser.read('config_sample.ini')
 config = config_parser["AppConfig"]
 
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
