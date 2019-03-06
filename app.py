@@ -19,14 +19,6 @@ from cas_client import *
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-app = Flask(__name__)
-talisman = Talisman(app, content_security_policy={
-    'default-src': "*",
-    'style-src': "'self' http://* 'unsafe-inline'",
-    'script-src': "'self' http://* 'unsafe-inline' 'unsafe-eval'",
-    'img-src': "'self' http://* 'unsafe-inline' data: *",
-})
-
 # Initialize configuration
 config_parser = RawConfigParser()
 if os.path.isfile('config.ini'):
@@ -34,6 +26,16 @@ if os.path.isfile('config.ini'):
 else:
     config_parser.read('config_sample.ini')
 config = config_parser["AppConfig"]
+
+# Initialize application
+app = Flask(__name__)
+if config.get('USE_HTTPS', "false").strip().lower() != "false":
+    talisman = Talisman(app, content_security_policy={
+        'default-src': "*",
+        'style-src': "'self' http://* 'unsafe-inline'",
+        'script-src': "'self' http://* 'unsafe-inline' 'unsafe-eval'",
+        'img-src': "'self' http://* 'unsafe-inline' data: *",
+    })
 
 app.config["APPLICATION_ROOT"] = "/kstar"
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
