@@ -133,7 +133,7 @@ def index():
     candidates = db.session.query(Candidate.name, func.count(Vote.target).label('vote_count')) \
                     .join(Vote, Vote.target == Candidate.id) \
                     .group_by(Vote.target) \
-                    .order_by(desc(func.count(Vote.target)))
+                    .order_by(desc(func.count(Vote.target)), Candidate.name)
     return render_template('index.html', candidates=candidates)
 
 
