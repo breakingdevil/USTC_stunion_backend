@@ -50,6 +50,15 @@ login_manager.session_protection = "strong"
 GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
 
 
+def middleware(env, start_response):
+    env['PATH_INFO'] = env['PATH_INFO'][6:]
+    environ['SCRIPT_NAME'] = "/kstar"
+    return self.app(environ, start_response)
+
+
+app.wsgi_app = middleware
+
+
 def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
@@ -151,6 +160,8 @@ def caslogin():
     cas_login_url = cas_client.get_login_url(service_url=app_login_url)
     return redirect(cas_login_url)
 
+
+app.wsgi_app = DispatcherMiddleware(simple, {app.config['APPLICATION_ROOT']: app.wsgi_app})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(config.get('SERVER_PORT', 6000)), debug=True)
