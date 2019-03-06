@@ -51,7 +51,15 @@ var myBarChart = new Chart(ctx, {
 			borderColor: gradientBorder
 		}]
 	},
-	options: {}
+	options: {
+		scales: {
+			yAxes: [{
+				ticks: {
+					beginAtZero: true
+				}
+			}]
+		}
+	}
 });
 </script>
 {% endblock %}
