@@ -106,16 +106,16 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 
-@app.route('/index')
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/kstar/index')
+@app.route('/kstar/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
 
-@app.route('/caslogin', methods=['GET', 'POST'])
+@app.route('/kstar/caslogin', methods=['GET', 'POST'])
 def caslogin():
     ticket = request.args.get('ticket')
-    app_login_url = 'https://stunion.ustc.edu.cn/caslogin'
+    app_login_url = 'https://stunion.ustc.edu.cn/kstar/caslogin'
     cas_url = 'https://passport.ustc.edu.cn'
     cas_client = CASClient(cas_url, auth_prefix='')
     if ticket:
@@ -142,11 +142,11 @@ def caslogin():
                 login_user(newuser)
                 # cas_client.session_exists(ticket)
                 # cas_client.delete_session(ticket)
-                return redirect(url_for('append'))
+                return redirect(url_for('index'))
             login_user(myrecord)
             # cas_client.session_exists(ticket)
             # cas_client.delete_session(ticket)
-            return redirect(url_for('append'))
+            return redirect(url_for('index'))
     cas_login_url = cas_client.get_login_url(service_url=app_login_url)
     return redirect(cas_login_url)
 
