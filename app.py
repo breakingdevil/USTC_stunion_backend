@@ -11,6 +11,7 @@ from flask_wtf import FlaskForm
 from wtforms import *
 from wtforms.validators import *
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql.expression import func, desc
 from flask_login import login_required, fresh_login_required, login_user, login_fresh, login_url, LoginManager, \
     UserMixin, logout_user, current_user
 from cas_client import *
