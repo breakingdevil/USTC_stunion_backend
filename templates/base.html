@@ -35,18 +35,16 @@
 			</ul>
 		</div>
 	</nav>
-	<div class="container">
+	<div class="container" style="padding-top: 1rem; margin-top: 1rem;">
 		<content>
-			<br>
 			{% for message in get_flashed_messages() %}
-				<div class="alert alert-warning">
+				<div class="alert alert-warning" {% if loop.last %} style="margin-bottom: 1rem;" {% endif %}>
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					{{ message }}
 				</div>
 			{% endfor %}
-			<br>
-			{% block content %}
 
+			{% block content %}
 			{% endblock %}
 		</content>
 
@@ -76,7 +74,6 @@ Exhausted QA Engineer 2:   taoky
 	<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
 
 	{% block script %}
-
 	{% endblock %}
 </body>
 </html>
