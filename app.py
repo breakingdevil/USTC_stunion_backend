@@ -54,7 +54,7 @@ class PrefixMiddleware:
     def __init__(self, app, prefix=""):
         self.app = app
         self.prefix = prefix
-    
+
     def __call__(self, env, start_response):
         env['PATH_INFO'] = env['PATH_INFO'][len(self.prefix):]
         env['SCRIPT_NAME'] = self.prefix
