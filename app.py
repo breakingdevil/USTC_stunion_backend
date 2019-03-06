@@ -57,7 +57,7 @@ def git_revision():
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    schoolId = db.Column(db.String(64), unique=True)
+    school_id = db.Column(db.String(64), unique=True)
 
     def __repr__(self):
         return '<User %r>' % self.userSchoolNum
