@@ -9,18 +9,14 @@ from flask_bootstrap import Bootstrap
 from flask_talisman import Talisman
 from flask_wtf import FlaskForm
 from wtforms import *
-from sqlalchemy.sql.expression import func
 from wtforms.validators import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_required, fresh_login_required, login_user, login_fresh, login_url, LoginManager, \
     UserMixin, logout_user, current_user
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from cas_client import *
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-basedir = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
 talisman = Talisman(app, content_security_policy={
