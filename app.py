@@ -129,7 +129,10 @@ def internal_server_error(e):
 @app.route('/index')
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    candidates = db.session.query(Candidate.name, func.count(Vote.target)) \
+                    .join(Vote, Vote.target == Candidate.id) \
+                    .order_by(desc(func.count(Vote.target)))
+    return render_template('index.html', candidates=candidates)
 
 
 @app.route('/caslogin', methods=['GET', 'POST'])
