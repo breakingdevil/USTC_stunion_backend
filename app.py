@@ -65,6 +65,7 @@ class User(UserMixin, db.Model):
 
 class Vote(db.Model):
     __tablename__ = 'votes'
+    id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.Integer)
     target = db.Column(db.Integer)
     time = db.Column(db.DateTime)
