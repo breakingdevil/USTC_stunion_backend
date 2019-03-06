@@ -4,18 +4,20 @@
 <h1>2019 Kstar 歌手大赛投票</h1>
 
 <div class="container">
-	<div class="col-md-1"></div>
-	<div class="col-md-10">
-		<canvas id="voteChart"></canvas>
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<canvas id="voteChart" style="width: 100%;"></canvas>
+		</div>
+		<div class="col-md-1"></div>
 	</div>
-	<div class="col-md-1"></div>
 </div>
 {% endblock %}
 
 
 {% block script %}
 <script type="text/javascript">
-var canvas = $('#voteChart'),
+var canvas = $('#voteChart')[0],
 	ctx = canvas.getContext('2d');
 var gradientFill = ctx.createLinearGradient(0, 0, canvas.width, 0);
 var gradientBorder = ctx.createLinearGradient(0, 0, canvas.width, 0);
@@ -47,7 +49,7 @@ var myBarChart = new Chart(ctx, {
 			borderColor: gradientBorder
 		}]
 	},
-	options: options
+	options: {}
 });
 </script>
 {% endblock %}
