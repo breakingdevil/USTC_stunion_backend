@@ -105,6 +105,11 @@ def loadUser(user_id):
     return User.query.filter_by(id=int(user_id)).first()
 
 
+@app.route("/vote", methods=('GET', 'POST'))
+def vote():
+    return render_template("vote.html")
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
