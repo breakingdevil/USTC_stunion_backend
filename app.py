@@ -132,6 +132,7 @@ def internal_server_error(e):
 def index():
     candidates = db.session.query(Candidate.name, func.count(Vote.target)) \
                     .join(Vote, Vote.target == Candidate.id) \
+                    .group_by(Vote.target) \
                     .order_by(desc(func.count(Vote.target)))
     return render_template('index.html', candidates=candidates)
 
