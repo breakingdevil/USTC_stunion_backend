@@ -25,16 +25,16 @@ gradientBorder.addColorStop(0, 'rgba(255, 0, 0, 1)');
 gradientBorder.addColorStop(1, 'rgba(255, 255, 0, 1)');
 
 var labels = [
-	{% for candidate in candidates %}
+	{% for candidate in candidates -%}
 		"{{ candidate.name }}"
-		{% if not loop.last %} , {% endif %}
-	{% endfor %}
+		{%- if not loop.last -%} , {%- endif -%}
+	{%- endfor %}
 ];
 var data = [
-	{% for candidate in candidates %}
+	{% for candidate in candidates -%}
 		{{ candidate.count }}
-		{% if not loop.last %} , {% endif %}
-	{% endfor %}
+		{%- if not loop.last -%} , {%- endif -%}
+	{%- endfor %}
 ];
 
 var myBarChart = new Chart(ctx, {
