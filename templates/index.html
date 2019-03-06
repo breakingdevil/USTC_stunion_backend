@@ -18,9 +18,10 @@
 {% block script %}
 <script type="text/javascript">
 var canvas = $('#voteChart')[0],
-	ctx = canvas.getContext('2d');
-var gradientFill = ctx.createLinearGradient(0, 0, canvas.width, 0);
-var gradientBorder = ctx.createLinearGradient(0, 0, canvas.width, 0);
+	ctx = canvas.getContext('2d'),
+	maxWidth = canvas.parentElement.clientWidth;
+var gradientFill = ctx.createLinearGradient(0, 0, maxWidth, 0);
+var gradientBorder = ctx.createLinearGradient(0, 0, maxWidth, 0);
 gradientFill.addColorStop(0, 'rgba(255, 0, 0, 0.8)');
 gradientFill.addColorStop(1, 'rgba(255, 255, 0, 0.8)');
 gradientBorder.addColorStop(0, 'rgba(255, 0, 0, 1)');
