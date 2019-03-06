@@ -1,9 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h1>2019 Kstar 歌手大赛投票</h1>
+
+<div class="container">
+	<div class="col-md-1"></div>
+	<div class="col-md-10">
+		<canvas id="voteChart"></canvas>
+	</div>
+	<div class="col-md-1"></div>
+</div>
+{% endblock %}
 
 
-<h1> hello world </h1>
+{% block script %}
+<script type="text/javascript">
+var canvas = $('#voteChart'),
+	ctx = canvas.getContext('2d');
+var gradientFill = ctx.createLinearGradient(0, 0, canvas.width, 0);
+var gradientBorder = ctx.createLinearGradient(0, 0, canvas.width, 0);
+gradientFill.addColorStop(0, 'rgba(255, 0, 0, 0.8)');
+gradientFill.addColorStop(1, 'rgba(255, 255, 0, 0.8)');
+gradientBorder.addColorStop(0, 'rgba(255, 0, 0, 1)');
+gradientBorder.addColorStop(1, 'rgba(255, 255, 0, 1)');
 
+var labels = [
+	{% for candidate in candidates %}
+		"{{ candidate.name }}"
+		{% if not loop.last %} , {% endif %}
+	{% endfor %}
+];
+var data = [
+	{% for candidate in candidates %}
+		{{ candidate.count }}
+		{% if not loop.last %} , {% endif %}
+	{% endfor %}
+];
 
+var myBarChart = new Chart(ctx, {
+	type: 'horizontalBar',
+	data: {
+		labels: labels,
+		datasets: [{
+			data: data,
+			backgroundColor: gradientFill,
+			borderColor: gradientBorder
+		}]
+	},
+	options: options
+});
+</script>
 {% endblock %}
