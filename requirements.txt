@@ -1,0 +1,12 @@
+Flask
+Bootstrap-Flask
+Flask_WTF
+Flask_SQLAlchemy
+Flask-Login
+Flask-Talisman
+mysqlclient
+PyCryptodome
+requests
+sh>=1.12.4
+
+flake8~=3.6.0

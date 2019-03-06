@@ -1,0 +1,16 @@
+dist: xenial
+language: python
+python: "3.7"
+
+install:
+  - pip3 install -r requirements.txt --upgrade
+script:
+  - flake8
+
+cache:
+  directories:
+    - $HOME/virtualenv/python3.7.*
+    - $HOME/.cache/pip
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
+  - rm -rf $HOME/.cache/pip/http
