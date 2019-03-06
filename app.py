@@ -33,7 +33,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://flask:ag@bf(*&^^@v320*e@localho
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SERVER_NAME'] = 'stunion.ustc.edu.cn'
 
-mail = Mail(app)
 login_manager = LoginManager(app)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
