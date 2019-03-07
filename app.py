@@ -107,11 +107,6 @@ class Candidate(db.Model):
 OptionDisplay = namedtuple("OptionDisplay", ["id", "name", "selected"])
 
 
-@login_manager.user_loader
-def loadUser(user_id):
-    return User.query.filter_by(id=int(user_id)).first()
-
-
 @app.route("/vote", methods=('GET', 'POST'))
 @fresh_login_required
 def vote():
@@ -170,7 +165,11 @@ def index():
                     .join(Vote, Vote.target == Candidate.id) \
                     .group_by(Vote.target) \
                     .order_by(desc(func.count(Vote.target)), Candidate.name)
-    return render_template('index.html', candidates=candidates)
+    if current_user.is_authenticated:
+        has_voted = Vote.query.filter_by(user=current_user.id).first() is not None
+    else:
+        has_voted = False
+    return render_template("index.html", candidates=candidates, has_voted=has_voted)
 
 
 @app.route('/caslogin', methods=['GET', 'POST'])

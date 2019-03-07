@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+
 {% block content %}
 <h1>2019 Kstar 歌手大赛投票</h1>
 
@@ -13,8 +14,15 @@
 	</div>
 </div>
 
-<button type="button" class="btn btn-outline-primary"><a href="{{ url_for("vote") }}"> 点我去投票 </a></button>
-
+{% if current_user.is_authenticated %}
+	<div class="container text-center justify-content-center">
+		{% if has_voted %}
+			<p class="btn btn-secondary">感谢您的参与！</p>
+		{% else %}
+			<button type="button" class="btn btn-primary"><a href="{{ url_for("vote") }}">点我去投票</a></button>
+		{% endif %}
+	</div>
+{% endif %}
 {% endblock %}
 
 
