@@ -167,9 +167,9 @@ def internal_server_error(e):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     candidates = db.session.query(Candidate.name, func.count(Vote.target).label('vote_count')) \
-                    .join(Vote, Vote.target == Candidate.id) \
-                    .group_by(Vote.target) \
-                    .order_by(desc(func.count(Vote.target)), Candidate.name)
+        .join(Vote, Vote.target == Candidate.id) \
+        .group_by(Vote.target) \
+        .order_by(desc(func.count(Vote.target)), Candidate.name)
     if current_user.is_authenticated:
         has_voted = Vote.query.filter_by(user=current_user.id).first() is not None
     else:
