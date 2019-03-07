@@ -109,12 +109,14 @@ def loadUser(user_id):
 
 
 @app.route("/vote", methods=('GET', 'POST'))
+@fresh_login_required
 def vote():
     candidates = db.session.query(Candidate.id, Candidate.name).order_by(Candidate.id)
     return render_template("vote.html", candidates=candidates)
 
 
 @app.route("/vote/submit", methods=('POST',))
+@fresh_login_required
 def submit():
     records = Vote.query.filter_by(user=current_user.id).first()
     if records is not None:
