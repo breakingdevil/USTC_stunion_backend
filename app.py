@@ -116,17 +116,20 @@ def vote():
 
 @app.route("/vote/submit", methods=('POST',))
 def submit():
+    records = Vote.query.filter_by(user=current_user.id).first()
+    if records is not None:
+        flash("对不起你已经投过票了!")
     data = dict(request.form)
     ids = [int(s[10:]) for s in data if s.startswith("candidate-") and data[s] == ["on"]]
     if len(ids) != 4:
-        flash("You didn't select the correct number of candidates to vote.")
+        flash("每个人只能给四个人投票,你选择的人数有问题，少于四个人或者多于四个人!")
         return redirect(url_for("vote"))
     ids.sort()
     now = datetime.now()
     for cid in ids:
         db.session.add(Vote(user=current_user.id, target=cid, time=now))
     db.session.commit()
-    flash("Vote success")
+    flash("投票成功!")
     return redirect(url_for("index"))
 
 
