@@ -111,7 +111,7 @@ def loadUser(user_id):
 @app.route("/vote", methods=('GET', 'POST'))
 @fresh_login_required
 def vote():
-    records = Vote.query(Vote.target).filter_by(user=current_user.id).all()
+    records = Vote.query.filter_by(user=current_user.id).all()
     if records:
         has_voted = True
     else:
