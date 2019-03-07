@@ -134,7 +134,7 @@ def submit():
         flash("你已经投过票了")
         return redirect(url_for("index"))
     data = dict(request.form)
-    ids = [int(s[10:]) for s in data if s.startswith("candidate-") and data[s][0] == "on"]
+    ids = list({int(s[10:]) for s in data if s.startswith("candidate-") and data[s][0] == "on"})
     if len(ids) != 4:
         flash("每个人只能给四位选手投票，你投了 {} 票".format(len(ids)))
         return redirect(url_for("vote"))
