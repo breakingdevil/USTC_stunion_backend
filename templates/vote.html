@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>This is vote.html</h1>
+<h1>请为你喜爱的选手投票</h1>
 
 <form id="vote" action="{{ url_for("submit") }}" method="post">
 	<div class="container">
@@ -22,9 +22,9 @@
 		<div class="row">
 			<div class="col text-center justify-content-center">
 				{% if has_voted %}
-					<a href="{{ url_for("index") }}" class="btn btn-secondary">Go back</a>
+					<a href="{{ url_for("index") }}" class="btn btn-secondary">返回主页</a>
 				{% else %}
-					<button name="submit" class="btn btn-primary" type="submit">Submit</button>
+					<button name="submit" class="btn btn-primary" type="submit">提交投票</button>
 				{% endif %}
 			</div>
 		</div>
