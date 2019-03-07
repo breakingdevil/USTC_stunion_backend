@@ -123,7 +123,7 @@ def vote():
 @app.route("/vote/submit", methods=('POST',))
 @fresh_login_required
 def submit():
-    records = Vote.query.filter_by(user=current_user.id).first()
+    records = Vote.query.filter_by(user=current_user.id).all()
     if records is not None:
         flash("你已经投过票了")
         return redirect(url_for("index"))
