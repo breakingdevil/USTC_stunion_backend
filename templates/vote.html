@@ -2,4 +2,24 @@
 
 {% block content %}
 <h1>This is vote.html</h1>
+
+<form id="vote" action="submit" method="post">
+	<div class="container">
+		{% for candidate in candidates %}
+			<div class="row">
+				<div class="col-md-1">
+					<input type="checkbox" name="candidate-{{ candidate.id }}" />
+				</div>
+				<div class="col">
+					<p>{{ candidate.name }}</p>
+				</div>
+			</div>
+		{% endfor %}
+		<div class="row">
+			<div class="col text-center justify-content-center">
+				<button name="submit" class="btn btn-primary" type="submit">Submit</button>
+			</div>
+		</div>
+	</div>
+</form>
 {% endblock %}

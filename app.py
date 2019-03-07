@@ -110,7 +110,8 @@ def loadUser(user_id):
 
 @app.route("/vote", methods=('GET', 'POST'))
 def vote():
-    return render_template("vote.html")
+    candidates = db.session.query(Candidate.id, Candidate.name).order_by(Candidate.id)
+    return render_template("vote.html", candidates=candidates)
 
 
 @app.errorhandler(404)
