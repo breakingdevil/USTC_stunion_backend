@@ -111,12 +111,13 @@ def loadUser(user_id):
 @app.route("/vote", methods=('GET', 'POST'))
 @fresh_login_required
 def vote():
-    records = Vote.query.filter_by(user=current_user.id).first()
-    if records is not None:
-        flash("对不起,你已经投过票了!")
-        return redirect(url_for('index'))
+    records = Vote.query(Vote.target).filter_by(user=current_user.id).all()
+    if records:
+        has_voted = True
+    else:
+        has_voted = False
     candidates = db.session.query(Candidate.id, Candidate.name).order_by(Candidate.id)
-    return render_template("vote.html", candidates=candidates)
+    return render_template("vote.html", candidates=candidates, has_voted=has_voted, targets=records)
 
 
 @app.route("/vote/submit", methods=('POST',))
@@ -124,19 +125,19 @@ def vote():
 def submit():
     records = Vote.query.filter_by(user=current_user.id).first()
     if records is not None:
-        flash("对不起你已经投过票了!")
-        return redirect(url_for('index'))
+        flash("你已经投过票了")
+        return redirect(url_for("index"))
     data = dict(request.form)
     ids = [int(s[10:]) for s in data if s.startswith("candidate-") and data[s] == ["on"]]
     if len(ids) != 4:
-        flash("每个人只能给四个人投票,你选择的人数有问题，少于四个人或者多于四个人!")
+        flash("每个人只能给四位选手投票，你选择的票数不正确！")
         return redirect(url_for("vote"))
     ids.sort()
     now = datetime.now()
     for cid in ids:
         db.session.add(Vote(user=current_user.id, target=cid, time=now))
     db.session.commit()
-    flash("投票成功!")
+    flash("投票成功！")
     return redirect(url_for("index"))
 
 
@@ -195,4 +196,4 @@ def caslogin():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(config.get('SERVER_PORT', 6000)), debug=True)
+    app.run(host="0.0.0.0", port=int(config.get('SERVER_PORT', 6000)), debug=True)
