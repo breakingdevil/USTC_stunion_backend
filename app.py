@@ -121,7 +121,7 @@ def page_not_found(e):
 @app.errorhandler(401)
 def unauthorized(e):
     flash("你尚未登录!")
-    return redirect(url_for('login'))
+    return redirect(url_for('caslogin'))
 
 
 @app.errorhandler(500)
