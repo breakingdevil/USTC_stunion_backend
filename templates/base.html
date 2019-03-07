@@ -45,6 +45,11 @@
 			{% endfor %}
 
 			{% block content %}
+            <br>
+            {% if current_user.school_id %}
+                <span class="badge badge-pill badge-primary"> current_user.school_id </span>
+            {% endif %}
+            <br>
 			{% endblock %}
 		</content>
 
