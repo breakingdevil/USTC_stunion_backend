@@ -114,6 +114,22 @@ def vote():
     return render_template("vote.html", candidates=candidates)
 
 
+@app.route("/vote/submit", methods=('POST',))
+def submit():
+    data = dict(request.form)
+    ids = [int(s[10:]) for s in data if s.startswith("candidate-") and data[s] == "on"]
+    if len(ids) != 4:
+        flash("You didn't select the correct number of candidates to vote.")
+        return redirect(url_for("vote"))
+    ids.sort()
+    now = datetime.now()
+    for cid in ids:
+        db.session.add(Vote(user=current_user.id, target=cid, time=now))
+    db.session.commit()
+    flash("Vote success")
+    return redirect(url_for("index"))
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
