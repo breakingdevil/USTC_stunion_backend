@@ -46,7 +46,7 @@
 
 			{% block content %}
             <br>
-            {% if current_user.school_id %}
+            {% if current_user.is_authenticated %}
                 <span class="badge badge-pill badge-primary"> current_user.school_id </span>
             {% endif %}
             <br>
