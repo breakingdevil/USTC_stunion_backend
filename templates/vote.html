@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>请为你喜爱的选手投票</h1>
+{% if has_voted %}
+	<h1>这是你的投票</h1>
+{% else %}
+	<h1>请为你喜爱的选手投票</h1>
+{% endif %}
 
 <form id="vote" action="{{ url_for("submit") }}" method="post">
 	<div class="container">
