@@ -117,7 +117,7 @@ def vote():
 @app.route("/vote/submit", methods=('POST',))
 def submit():
     data = dict(request.form)
-    ids = [int(s[10:]) for s in data if s.startswith("candidate-") and data[s] == "on"]
+    ids = [int(s[10:]) for s in data if s.startswith("candidate-") and data[s] == ["on"]]
     if len(ids) != 4:
         flash("You didn't select the correct number of candidates to vote.")
         return redirect(url_for("vote"))
