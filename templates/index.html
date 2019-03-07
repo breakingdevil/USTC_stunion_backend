@@ -18,7 +18,7 @@
 	<div class="container row text-center justify-content-center">
 		{% if has_voted %}
 			<div class="col">
-				<p class="btn btn-success">感谢您的参与！</p>
+				<span class="btn btn-success">感谢您的参与</span>
 				<a href="{{ url_for("vote") }}" class="btn btn-info" style="margin-left: 2rem;">查看投票</a>
 			</div>
 		{% else %}
