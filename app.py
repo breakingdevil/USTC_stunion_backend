@@ -1,4 +1,5 @@
 import os
+from collections import namedtuple
 from threading import Thread
 from datetime import datetime
 from configparser import RawConfigParser
@@ -103,6 +104,9 @@ class Candidate(db.Model):
     name = db.Column(db.String(64))
 
 
+OptionDisplay = namedtuple("OptionDisplay", ["id", "name", "selected"])
+
+
 @login_manager.user_loader
 def loadUser(user_id):
     return User.query.filter_by(id=int(user_id)).first()
@@ -111,13 +115,15 @@ def loadUser(user_id):
 @app.route("/vote", methods=('GET', 'POST'))
 @fresh_login_required
 def vote():
-    records = Vote.query.filter_by(user=current_user.id).all()
+    records = list(map(lambda x: x.target, Vote.query.filter_by(user=current_user.id).all()))
+    candidates = db.session.query(Candidate.id, Candidate.name).order_by(Candidate.id)
     if records:
         has_voted = True
+        display_candidates = [OptionDisplay(c.id, c.name, c.id in records) for c in candidates]
     else:
         has_voted = False
-    candidates = db.session.query(Candidate.id, Candidate.name).order_by(Candidate.id)
-    return render_template("vote.html", candidates=candidates, has_voted=has_voted, targets=records)
+        display_candidates = candidates
+    return render_template("vote.html", candidates=display_candidates, has_voted=has_voted, targets=records)
 
 
 @app.route("/vote/submit", methods=('POST',))

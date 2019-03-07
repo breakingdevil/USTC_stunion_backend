@@ -8,7 +8,11 @@
 		{% for candidate in candidates %}
 			<div class="row">
 				<div class="col-md-1">
-					<input type="checkbox" name="candidate-{{ candidate.id }}" />
+					{% if has_voted %}
+					<input type="checkbox" name="candidate-{{ candidate.id }}" {% if candidate.selected %}checked{% endif %} disabled />
+					{% else %}
+						<input type="checkbox" name="candidate-{{ candidate.id }}" />
+					{% endif %}
 				</div>
 				<div class="col">
 					<p>{{ candidate.name }}</p>
