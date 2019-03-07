@@ -130,11 +130,11 @@ def vote():
 @fresh_login_required
 def submit():
     records = Vote.query.filter_by(user=current_user.id).all()
-    if records is not None:
+    if records:
         flash("你已经投过票了")
         return redirect(url_for("index"))
     data = dict(request.form)
-    ids = [int(s[10:]) for s in data if s.startswith("candidate-") and data[s] == ["on"]]
+    ids = [int(s[10:]) for s in data if s.startswith("candidate-") and data[s][0] == "on"]
     if len(ids) != 4:
         flash("每个人只能给四位选手投票，你选择的票数不正确！")
         return redirect(url_for("vote"))
