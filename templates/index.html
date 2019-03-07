@@ -19,7 +19,7 @@
 		{% if has_voted %}
 			<p class="btn btn-secondary">感谢您的参与！</p>
 		{% else %}
-			<button type="button" class="btn btn-primary"><a href="{{ url_for("vote") }}">点我去投票</a></button>
+			<a href="{{ url_for("vote") }}" class="btn btn-primary">点我去投票</a>
 		{% endif %}
 	</div>
 {% endif %}
