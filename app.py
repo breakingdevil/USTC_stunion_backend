@@ -52,6 +52,7 @@ db = SQLAlchemy(app)
 login_manager.session_protection = "strong"
 
 GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
+MAX_VOTES = 5
 
 
 class PrefixMiddleware:
@@ -142,8 +143,11 @@ def submit():
         return redirect(url_for("index"))
     data = dict(request.form)
     ids = list({int(s[10:]) for s in data if s.startswith("candidate-") and data[s][0] == "on"})
-    if len(ids) != 4:
-        flash("每个人只能给四位选手投票，你投了 {} 票".format(len(ids)), "danger")
+    if not ids:
+        flash("请选择你要投票的选手", "danger")
+        return redirect(url_for("vote"))
+    elif len(ids) > MAX_VOTES:
+        flash("每个人只能给 {} 位选手投票，你投了 {} 票".format(MAX_VOTES, len(ids)), "danger")
         return redirect(url_for("vote"))
     ids.sort()
     now = datetime.now()
