@@ -154,20 +154,13 @@ def submit():
     return redirect(url_for("index"))
 
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
-
-
-@app.errorhandler(401)
-def unauthorized(e):
-    flash("你尚未登录!", "danger")
-    return redirect(url_for('caslogin'))
-
-
-@app.errorhandler(500)
-def internal_server_error(e):
-    return render_template('500.html'), 500
+@app.route("/api/count", methods=('GET', 'POST'))
+def api_count():
+    candidates = db.session.query(Candidate.id, Candidate.name, func.count(Vote.target).label('vote_count')) \
+        .join(Vote, Vote.target == Candidate.id) \
+        .group_by(Vote.target) \
+        .order_by(Candidate.id)
+    return jsonify({'candidates': [{'id': c.id, 'name': c.name, 'votes': c.vote_count} for c in candidates]})
 
 
 @app.route('/index')
@@ -210,6 +203,21 @@ def caslogin():
             return redirect(url_for('index'))
     cas_login_url = cas_client.get_login_url(service_url=app_login_url)
     return redirect(cas_login_url)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(401)
+def unauthorized(e):
+    return redirect(url_for('caslogin'))
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 
 if __name__ == "__main__":
