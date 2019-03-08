@@ -117,8 +117,8 @@ def load_user(user_id):
 @app.route("/vote", methods=('GET', 'POST'))
 @fresh_login_required
 def vote():
-    if checkTimeLimit() is not True and limit:
-        flash("投票尚未开始!")
+    if limit and not checkTimeLimit:
+        flash("投票尚未开始", "danger")
         return redirect(url_for("index"))
     records = list(map(lambda x: x.target, Vote.query.filter_by(user=current_user.id).all()))
     candidates = db.session.query(Candidate.id, Candidate.name).order_by(Candidate.id)
@@ -134,9 +134,8 @@ def vote():
 @app.route("/vote/submit", methods=('POST',))
 @fresh_login_required
 def submit():
-    if checkTimeLimit() is not True and limit:
-        flash("投票尚未开始!")
-        return redirect(url_for("index"))
+    if limit and not checkTimeLimit:
+        return redirect(url_for("index")), 400
     records = Vote.query.filter_by(user=current_user.id).all()
     if records:
         flash("你已经投过票了", "info")
