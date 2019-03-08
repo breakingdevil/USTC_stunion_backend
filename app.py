@@ -136,7 +136,7 @@ def submit():
     data = dict(request.form)
     ids = list({int(s[10:]) for s in data if s.startswith("candidate-") and data[s][0] == "on"})
     if len(ids) != 4:
-        flash("每个人只能给四位选手投票，你投了 {} 票".format(len(ids)), "error")
+        flash("每个人只能给四位选手投票，你投了 {} 票".format(len(ids)), "danger")
         return redirect(url_for("vote"))
     ids.sort()
     now = datetime.now()
@@ -154,7 +154,7 @@ def page_not_found(e):
 
 @app.errorhandler(401)
 def unauthorized(e):
-    flash("你尚未登录!", "error")
+    flash("你尚未登录!", "danger")
     return redirect(url_for('caslogin'))
 
 
