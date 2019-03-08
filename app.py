@@ -69,6 +69,7 @@ app.wsgi_app = PrefixMiddleware(app.wsgi_app, "/kstar")
 # 0 is limit , 1 is unlimit
 limit = 0
 
+
 def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
@@ -116,7 +117,7 @@ def load_user(user_id):
 @app.route("/vote", methods=('GET', 'POST'))
 @fresh_login_required
 def vote():
-    if checkTimeLimit() != True and limit:
+    if checkTimeLimit() is not True and limit:
         flash("投票尚未开始!")
         return redirect(url_for("index"))
     records = list(map(lambda x: x.target, Vote.query.filter_by(user=current_user.id).all()))
@@ -133,7 +134,7 @@ def vote():
 @app.route("/vote/submit", methods=('POST',))
 @fresh_login_required
 def submit():
-    if checkTimeLimit() != True and limit:
+    if checkTimeLimit() is not True and limit:
         flash("投票尚未开始!")
         return redirect(url_for("index"))
     records = Vote.query.filter_by(user=current_user.id).all()
