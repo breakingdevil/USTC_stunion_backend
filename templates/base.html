@@ -37,8 +37,8 @@
 	</nav>
 	<div class="container" style="padding-top: 1.5rem; margin-top: 1.5rem;">
 		<content>
-			{% for message in get_flashed_messages() %}
-				<div class="alert alert-warning" {% if loop.last %} style="margin-bottom: 1rem;" {% endif %}>
+			{% for category, message in get_flashed_messages(with_categories=true) %}
+				<div class="alert alert-{{ category }}" {% if loop.last %} style="margin-bottom: 1rem;" {% endif %}>
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					{{ message }}
 				</div>
