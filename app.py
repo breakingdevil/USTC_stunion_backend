@@ -3,6 +3,7 @@ from collections import namedtuple
 from threading import Thread
 from datetime import datetime
 from configparser import RawConfigParser
+import regex
 from sh.contrib import git
 
 from flask import *
@@ -71,10 +72,9 @@ time_limit_enabled = config.get('TIME_LIMIT', "false").strip().lower() != "false
 
 
 def checkTimeLimit():
-    # 返回1则正在活动
     nowtime = datetime.now()
     starttime = datetime(2019, 3, 12, 20, 0, 0, 0)
-    endtime = datetime(2019, 3, 20, 0, 0, 0, 0)
+    endtime = datetime(2019, 3, 16, 20, 0, 0, 0)
     return starttime <= nowtime < endtime
 
 
@@ -200,6 +200,10 @@ def caslogin():
         if cas_response and cas_response.success:
             thisuser = User.query.filter_by(school_id=cas_response.user).first()
             if thisuser is None:
+                # Validate school ID
+                if not regex.compile(r"(?i)^[A-Z]{2}\d{8}$").match(cas_response.user):
+                    flash("请使用有效学号登录", 'danger')
+                    return redirect(url_for('index'))
                 thisuser = User(school_id=cas_response.user, time=datetime.now())
                 db.session.add(thisuser)
                 db.session.commit()

@@ -6,6 +6,8 @@ Flask-Login
 Flask-Talisman
 mysqlclient
 PyCryptodome
+
+regex>=2017.12.12
 requests
 sh>=1.12.4
 
