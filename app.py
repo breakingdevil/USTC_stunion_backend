@@ -117,7 +117,7 @@ def load_user(user_id):
 @app.route("/vote", methods=('GET', 'POST'))
 @fresh_login_required
 def vote():
-    if time_limit_enabled and not checkTimeLimit:
+    if time_limit_enabled and not checkTimeLimit():
         flash("投票尚未开始", "danger")
         return redirect(url_for("index"))
     records = list(map(lambda x: x.target, Vote.query.filter_by(user=current_user.id).all()))
@@ -134,7 +134,7 @@ def vote():
 @app.route("/vote/submit", methods=('POST',))
 @fresh_login_required
 def submit():
-    if time_limit_enabled and not checkTimeLimit:
+    if time_limit_enabled and not checkTimeLimit():
         return redirect(url_for("index")), 400
     records = Vote.query.filter_by(user=current_user.id).all()
     if records:
