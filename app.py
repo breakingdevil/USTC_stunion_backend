@@ -87,6 +87,7 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     school_id = db.Column(db.String(64), unique=True)
+    time = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
         return '<User %r>' % self.userSchoolNum
@@ -97,7 +98,7 @@ class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.Integer)
     target = db.Column(db.Integer)
-    time = db.Column(db.DateTime)
+    time = db.Column(db.DateTime, default=datetime.now)
 
 
 class Candidate(db.Model):
@@ -194,11 +195,12 @@ def caslogin():
             )
         except Exception:
             # CAS server is currently broken, try again later.
+            flash("统一身份认证服务出现故障，请稍后重试", 'danger')
             return redirect(url_for('index'))
         if cas_response and cas_response.success:
             thisuser = User.query.filter_by(school_id=cas_response.user).first()
             if thisuser is None:
-                thisuser = User(school_id=cas_response.user)
+                thisuser = User(school_id=cas_response.user, time=datetime.now())
                 db.session.add(thisuser)
                 db.session.commit()
                 thisuser = User.query.filter_by(school_id=cas_response.user).first()
