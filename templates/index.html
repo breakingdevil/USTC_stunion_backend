@@ -80,6 +80,7 @@ var myBarChart = new Chart(ctx, {
 			}]
 		},
 		responsive: true,
+		aspectRatio: 1/(0.1 + 0.08 * data.length),
 		maintainAspectRatio: false
 	}
 });
