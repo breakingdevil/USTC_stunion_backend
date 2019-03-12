@@ -59,6 +59,14 @@ var data = [
 		{%- if not loop.last -%} , {%- endif -%}
 	{%- endfor %}
 ];
+var aspectRatio;
+if (window.innerWidth >= 960) {
+	aspectRatio = 0.05 + 0.04 * data.length;
+} else if (window.innerWidth >= 768) {
+	aspectRatio = 0.08 + 0.06 * data.length;
+} else {
+	aspectRatio = 0.1 + 0.08 * data.length;
+}
 
 var myBarChart = new Chart(ctx, {
 	type: 'horizontalBar',
@@ -80,7 +88,7 @@ var myBarChart = new Chart(ctx, {
 			}]
 		},
 		responsive: true,
-		aspectRatio: 1/(0.1 + 0.08 * data.length),
+		aspectRatio: 1 / aspectRatio,
 		maintainAspectRatio: false
 	}
 });
