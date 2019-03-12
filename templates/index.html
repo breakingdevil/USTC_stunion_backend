@@ -41,6 +41,12 @@
 	<div class="collapse" id="collapsesayloveu">
 		<div class="card card-body"><div class="shadow-lg p-3 mb-5 bg-white rounded">在这里向你的心上人表达你的情愫吧！<a href="{{ url_for('sayLoveU') }}" class="alert-link">点击这里向 TA 表白</a></div></div>
 	</div>
+	<p>
+	<button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapsesayloveu" aria-expanded="false" aria-controls="collapseExample">kstar投票</button>
+	</p>
+	<div class="collapse" id="collapsesayloveu">
+		<div class="card card-body"><div class="shadow-lg p-3 mb-5 bg-white rounded">在这里向给你喜爱的kstar选手投票<a href="https://stunion.ustc.edu.cn/kstar" class="alert-link">点击这里投票</a></div></div>
+	</div>
     <a href="{{ url_for('faq') }}"><span class="badge badge-pill badge-primary" style="font-size: 1em;">点我查看使用指南</span></a>
     <span class="badge badge-pill badge-info">2019 女生节之愿望实现活动交流群: 287252379</span>
 	{% if current_user.userSecretText %}
