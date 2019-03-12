@@ -49,7 +49,7 @@ gradientBorder.addColorStop(1, 'rgba(255, 255, 0, 1)');
 
 var labels = [
 	{% for candidate in candidates -%}
-		unescape("{{ candidate.name }}")
+		"{{ candidate.name }}".replace(/&amp;/g, '&')
 		{%- if not loop.last -%} , {%- endif -%}
 	{%- endfor %}
 ];
