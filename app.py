@@ -178,7 +178,7 @@ def index():
         has_voted = Vote.query.filter_by(user=current_user.id).first() is not None
     else:
         has_voted = False
-    enabled = time_limit_enabled and not checkTimeLimit()
+    enabled = checkTimeLimit() or not time_limit_enabled
     return render_template("index.html", candidates=candidates, has_voted=has_voted, enabled=enabled)
 
 
