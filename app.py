@@ -74,7 +74,7 @@ time_limit_enabled = config.get('TIME_LIMIT', "false").strip().lower() != "false
 def checkTimeLimit():
     nowtime = datetime.now()
     starttime = datetime(2019, 3, 12, 20, 0, 0, 0)
-    endtime = datetime(2019, 3, 16, 20, 0, 0, 0)
+    endtime = datetime(2019, 3, 14, 20, 0, 0, 0)
     return starttime <= nowtime < endtime
 
 
