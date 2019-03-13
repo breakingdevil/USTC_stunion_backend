@@ -119,7 +119,7 @@ def load_user(user_id):
 @fresh_login_required
 def vote():
     if time_limit_enabled and not checkTimeLimit():
-        flash("投票尚未开始", "danger")
+        flash("投票已经结束，感谢您的参与", "success")
         return redirect(url_for("index"))
     records = list(map(lambda x: x.target, Vote.query.filter_by(user=current_user.id).all()))
     candidates = db.session.query(Candidate.id, Candidate.name).order_by(Candidate.id)
@@ -178,7 +178,8 @@ def index():
         has_voted = Vote.query.filter_by(user=current_user.id).first() is not None
     else:
         has_voted = False
-    return render_template("index.html", candidates=candidates, has_voted=has_voted)
+    enabled = time_limit_enabled and not checkTimeLimit()
+    return render_template("index.html", candidates=candidates, has_voted=has_voted, enabled=enabled)
 
 
 @app.route('/caslogin', methods=['GET', 'POST'])

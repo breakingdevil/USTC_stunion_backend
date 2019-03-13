@@ -21,7 +21,7 @@
 				<span class="btn btn-success">感谢您的参与</span>
 				<a href="{{ url_for("vote") }}" class="btn btn-info" style="margin-left: 2rem;">查看投票</a>
 			</div>
-		{% else %}
+		{% elif enabled %}
 			<div class="col">
 				<a href="{{ url_for("vote") }}" class="btn btn-primary">点我去投票</a>
 			</div>
