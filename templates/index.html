@@ -19,16 +19,6 @@
 		</p>
 	</div>
 	<br>
-	<br>
-	{% if userStatus == 0 %}
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			<strong>您的账户尚未激活！</strong>您的账户尚未激活，你的所有活动将被服务器后台挂起。<a href="{{ url_for('unconfirmed') }}" class="alert-link">点击我激活账户</a>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-	{% endif %}
-	<br>
 	<p>
 	<button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#kstarvote" aria-expanded="false" aria-controls="collapseExample">kstar投票</button>
 	</p>
