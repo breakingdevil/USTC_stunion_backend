@@ -20,7 +20,7 @@
 		<a href="{{ url_for('votelog') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">点我查看投票日志</a>
     </div>
     <div class="col">
-		<a href="{{ url_for('static', filename='kstar.public.sql') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">点我获取数据库导出 (截至投票停止)</a>
+		<a href="{{ url_for('static', filename='kstar.public.sql.gz') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">点我获取数据库导出 (截至投票停止)</a>
     </div>
     <br>
 	{% if current_user.is_authenticated %}
