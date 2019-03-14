@@ -25,7 +25,7 @@
 							账户操作
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="{{ url_for('change_password') }}">更换账户密码</a>
+							
 							<a class="dropdown-item" href="{{ url_for('logout') }}">登出</a>
 						</div>
 					</li>
@@ -33,16 +33,13 @@
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">最新活动
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="{{ url_for('wish') }}"> 愿望实现 </a>
-							<a class="dropdown-item" href="{{ url_for('sayLoveU') }}"> 表白配对 </a>
 						</div>
 					</li>
 				{% else %}
 					<li class="nav-item">
-						<a class="nav-link" href="{{ url_for('register') }}">注册</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ url_for('login') }}">登录</a>
+						<a class="nav-link" href="{{ url_for('caslogin') }}">登录</a>
 					</li>
 				{% endif %}
 			</ul>
