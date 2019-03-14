@@ -15,6 +15,11 @@
 </div>
 
 <div class="container row text-center justify-content-center">
+    <br>
+    <div class="col">
+    <a href="{{ url_for('votelog') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">点我查看投票日志</a>
+    </div>
+    <br>
 	{% if current_user.is_authenticated %}
 		{% if has_voted %}
 			<div class="col">

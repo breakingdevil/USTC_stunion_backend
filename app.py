@@ -167,6 +167,11 @@ def api_count():
     return jsonify({'candidates': [{'id': c.id, 'name': c.name, 'votes': c.vote_count} for c in candidates]})
 
 
+@app.route("/votelog")
+def votelog():
+    return render_template('votelog.html')
+
+
 @app.route('/index')
 @app.route('/', methods=['GET', 'POST'])
 def index():
