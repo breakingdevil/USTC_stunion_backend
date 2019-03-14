@@ -56,18 +56,6 @@ GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
 MAX_VOTES = 5
 
 
-class PrefixMiddleware:
-    def __init__(self, app, prefix=""):
-        self.app = app
-        self.prefix = prefix
-
-    def __call__(self, env, start_response):
-        env['PATH_INFO'] = env['PATH_INFO'][len(self.prefix):]
-        env['SCRIPT_NAME'] = self.prefix
-        return self.app(env, start_response)
-
-
-app.wsgi_app = PrefixMiddleware(app.wsgi_app, "/kstar")
 time_limit_enabled = config.get('TIME_LIMIT', "false").strip().lower() != "false"
 
 
