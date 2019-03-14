@@ -17,6 +17,7 @@ from sqlalchemy.sql.expression import func, desc
 from flask_login import login_required, fresh_login_required, login_user, login_fresh, login_url, LoginManager, \
     UserMixin, logout_user, current_user
 from cas_client import *
+from werkzeug.routing import SubPath
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -221,6 +222,9 @@ def unauthorized(e):
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
+
+
+app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
 
 
 if __name__ == "__main__":
