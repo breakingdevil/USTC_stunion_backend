@@ -152,7 +152,6 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-    
 
 @login_manager.user_loader
 def loadUser(user_id):
@@ -190,7 +189,6 @@ def logout():
     logout_user()
     # cas_logout_url = cas_client.get_logout_url(service_url=app_login_url)
     return redirect("https://passport.ustc.edu.cn/logout")
-
 
 
 @app.route('/caslogin', methods=['GET', 'POST'])
