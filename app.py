@@ -72,20 +72,10 @@ def git_revision():
     return {'git_revision': "Revision {}".format(GIT_DATA[0][:7])}
 
 
-class User(UserMixin, db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    school_id = db.Column(db.String(64), unique=True)
-    time = db.Column(db.DateTime, default=datetime.now)
-
-    def __repr__(self):
-        return '<User %r>' % self.userSchoolNum
-
-
 class Vote(db.Model):
     __tablename__ = 'votes'
     id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.Integer)
+    ticketNum = db.Column(db.Integer)
     target = db.Column(db.Integer)
     time = db.Column(db.DateTime, default=datetime.now)
 
@@ -96,16 +86,16 @@ class Candidate(db.Model):
     name = db.Column(db.String(64))
 
 
+class Ticket(db.Model):
+    __tablename__ = 'Ticket'
+    id = db.Column(db.Integer, primary_key=True)
+    ticketNum = db.Column(db.String(64))
+
+
 OptionDisplay = namedtuple("OptionDisplay", ["id", "name", "selected"])
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.filter_by(id=int(user_id)).first()
-
-
 @app.route("/vote", methods=('GET', 'POST'))
-@fresh_login_required
 def vote():
     if time_limit_enabled and not checkTimeLimit():
         flash("投票已经结束，感谢您的参与", "success")
@@ -122,7 +112,6 @@ def vote():
 
 
 @app.route("/vote/submit", methods=('POST',))
-@fresh_login_required
 def submit():
     if time_limit_enabled and not checkTimeLimit():
         return redirect(url_for("index")), 400
@@ -156,11 +145,6 @@ def api_count():
     return jsonify({'candidates': [{'id': c.id, 'name': c.name, 'votes': c.vote_count} for c in candidates]})
 
 
-@app.route("/votelog")
-def votelog():
-    return render_template('votelog.html')
-
-
 @app.route('/index')
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -174,39 +158,6 @@ def index():
         has_voted = False
     enabled = checkTimeLimit() or not time_limit_enabled
     return render_template("index.html", candidates=candidates, has_voted=has_voted, enabled=enabled)
-
-
-@app.route('/caslogin', methods=['GET', 'POST'])
-def caslogin():
-    ticket = request.args.get('ticket')
-    app_login_url = 'https://stunion.ustc.edu.cn/kstar/caslogin'
-    cas_url = 'https://passport.ustc.edu.cn'
-    cas_client = CASClient(cas_url, auth_prefix='')
-    if ticket:
-        try:
-            cas_response = cas_client.perform_service_validate(
-                ticket=ticket,
-                service_url=app_login_url,
-            )
-        except Exception:
-            # CAS server is currently broken, try again later.
-            flash("统一身份认证服务出现故障，请稍后重试", 'danger')
-            return redirect(url_for('index'))
-        if cas_response and cas_response.success:
-            thisuser = User.query.filter_by(school_id=cas_response.user).first()
-            if thisuser is None:
-                # Validate school ID
-                if not regex.compile(r"(?i)^[A-Z]{2}\d{8}$").match(cas_response.user):
-                    flash("请使用有效学号登录", 'danger')
-                    return redirect(url_for('index'))
-                thisuser = User(school_id=cas_response.user, time=datetime.now())
-                db.session.add(thisuser)
-                db.session.commit()
-                thisuser = User.query.filter_by(school_id=cas_response.user).first()
-            login_user(thisuser)
-            return redirect(url_for('index'))
-    cas_login_url = cas_client.get_login_url(service_url=app_login_url)
-    return redirect(cas_login_url)
 
 
 @app.errorhandler(404)
