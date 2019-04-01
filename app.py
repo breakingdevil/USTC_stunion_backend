@@ -90,6 +90,7 @@ class Ticket(db.Model):
     __tablename__ = 'Ticket'
     id = db.Column(db.Integer, primary_key=True)
     ticketNum = db.Column(db.String(64))
+    ticketLevel = db.Column(db.Integer, default=1)
 
 
 OptionDisplay = namedtuple("OptionDisplay", ["id", "name", "selected"])
@@ -100,39 +101,28 @@ def vote():
     if time_limit_enabled and not checkTimeLimit():
         flash("投票已经结束，感谢您的参与", "success")
         return redirect(url_for("index"))
-    records = list(map(lambda x: x.target, Vote.query.filter_by(user=current_user.id).all()))
     candidates = db.session.query(Candidate.id, Candidate.name).order_by(Candidate.id)
-    if records:
-        has_voted = True
-        display_candidates = [OptionDisplay(c.id, c.name, c.id in records) for c in candidates]
-    else:
-        has_voted = False
-        display_candidates = candidates
-    return render_template("vote.html", candidates=display_candidates, has_voted=has_voted, targets=records)
+    display_candidates = [OptionDisplay(c.id, c.name, c.id in records) for c in candidates]
+    # only display candidates don't need to display vote records
+    return render_template("vote.html", candidates=display_candidates)
 
 
 @app.route("/vote/submit", methods=('POST',))
 def submit():
     if time_limit_enabled and not checkTimeLimit():
         return redirect(url_for("index")), 400
-    records = Vote.query.filter_by(user=current_user.id).all()
-    if records:
-        flash("你已经投过票了", "info")
+    record = Vote.query.filter_by(ticketNum=request.form['ticketNum']).first()
+    if record is not None:
+        flash("此票已经使用")
         return redirect(url_for("index"))
-    data = dict(request.form)
-    ids = list({int(s[10:]) for s in data if s.startswith("candidate-") and "on" in [data[s], data[s][0]]})
-    if not ids:
-        flash("请选择你要投票的选手", "danger")
-        return redirect(url_for("vote"))
-    elif len(ids) > MAX_VOTES:
-        flash("每个人只能给 {} 位选手投票，你投了 {} 票".format(MAX_VOTES, len(ids)), "danger")
-        return redirect(url_for("vote"))
-    ids.sort()
-    now = datetime.now()
-    for cid in ids:
-        db.session.add(Vote(user=current_user.id, target=cid, time=now))
-    db.session.commit()
-    flash("投票成功！", "success")
+    ticketInfo = Ticket.query.filter_by(ticketNum=request.form['ticketNum']).first()
+    if ticketInfo is None:
+        flash("此票不存在")
+        return redirect(url_for("index"))
+    newVote = Vote(ticketNum=request.form['ticketNum'], target=request.form['target'])
+    db.session.add(newVote)
+    db.session,commit()
+    flash("投票成功")
     return redirect(url_for("index"))
 
 
@@ -152,12 +142,8 @@ def index():
         .join(Vote, Vote.target == Candidate.id) \
         .group_by(Vote.target) \
         .order_by(desc(func.count(Vote.target)), Candidate.name)
-    if current_user.is_authenticated:
-        has_voted = Vote.query.filter_by(user=current_user.id).first() is not None
-    else:
-        has_voted = False
     enabled = checkTimeLimit() or not time_limit_enabled
-    return render_template("index.html", candidates=candidates, has_voted=has_voted, enabled=enabled)
+    return render_template("index.html", candidates=candidates, enabled=enabled)
 
 
 @app.errorhandler(404)
