@@ -104,8 +104,7 @@ def vote():
         flash("投票已经结束，感谢您的参与", "success")
         return redirect(url_for("index"))
     candidates = db.session.query(Candidate.id, Candidate.name).order_by(Candidate.id)
-    display_candidates = [OptionDisplay(c.id, c.name, c.id in records) for c in candidates]
-    # only display candidates don't need to display vote records
+    display_candidates = [OptionDisplay(c.id, c.name, False) for c in candidates]
     return render_template("vote.html", candidates=display_candidates)
 
 
