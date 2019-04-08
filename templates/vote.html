@@ -9,14 +9,22 @@
 
 <form id="vote" action="{{ url_for("submit") }}" method="post">
 	<div class="container">
+		<div class="row">
+			<div class="col-md-2">
+				<p>您的门票编号</p>
+			</div>
+			<div class="col">
+				<input type="text" name="ticketNum" />
+			</div>
+		</div>
 		{% for candidate in candidates %}
 			<div class="row">
 				<div class="col-md-1">
-					{% if has_voted %}
-						<input type="checkbox" name="candidate-{{ candidate.id }}" {% if candidate.selected %}checked{% endif %} disabled />
-					{% else %}
-						<input type="checkbox" name="candidate-{{ candidate.id }}" />
-					{% endif %}
+						<input type="radio" name="candidate" value="{{ candidate.id }}"
+						{% if has_voted %}
+							{% if candidate.selected %}checked{% endif %} disabled
+						{% endif %}
+						/>
 				</div>
 				<div class="col">
 					<p>{{ candidate.name }}</p>

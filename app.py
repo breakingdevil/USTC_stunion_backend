@@ -75,7 +75,7 @@ def git_revision():
 class Vote(db.Model):
     __tablename__ = 'votes'
     id = db.Column(db.Integer, primary_key=True)
-    ticketNum = db.Column(db.Integer)
+    ticketId = db.Column(db.Integer)
     target = db.Column(db.Integer)
     time = db.Column(db.DateTime, default=datetime.now)
 
@@ -89,14 +89,14 @@ class Candidate(db.Model):
 class Ticket(db.Model):
     __tablename__ = 'Ticket'
     id = db.Column(db.Integer, primary_key=True)
-    ticketNum = db.Column(db.String(64))
+    ticketNum = db.Column(db.String(16))
     ticketLevel = db.Column(db.Integer, default=1)
 
 
 OptionDisplay = namedtuple("OptionDisplay", ["id", "name", "selected"])
 
 
-@app.route("/vote", methods=('GET', 'POST'))
+@app.route("/vote", methods=('GET',))
 def vote():
     if time_limit_enabled and not checkTimeLimit():
         flash("投票已经结束，感谢您的参与", "success")
@@ -111,17 +111,18 @@ def vote():
 def submit():
     if time_limit_enabled and not checkTimeLimit():
         return redirect(url_for("index")), 400
-    record = Vote.query.filter_by(ticketNum=request.form['ticketNum']).first()
-    if record is not None:
-        flash("此票已经使用")
-        return redirect(url_for("index"))
+
     ticketInfo = Ticket.query.filter_by(ticketNum=request.form['ticketNum']).first()
     if ticketInfo is None:
-        flash("此票不存在")
+        flash("此票不存在", "danger")
         return redirect(url_for("index"))
-    newVote = Vote(ticketNum=request.form['ticketNum'], target=request.form['target'])
+    record = Vote.query.filter_by(ticketNum=request.form['ticketNum']).first()
+    if record is not None:
+        flash("此票已经使用", "info")
+        return redirect(url_for("index"))
+    newVote = Vote(ticketId=record.id, target=request.form['target'])
     db.session.add(newVote)
-    db.session,commit()
+    db.session.commit()
     flash("投票成功")
     return redirect(url_for("index"))
 
@@ -136,7 +137,7 @@ def api_count():
 
 
 @app.route('/index')
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=('GET', 'POST'))
 def index():
     candidates = db.session.query(Candidate.name, func.count(Vote.target).label('vote_count')) \
         .join(Vote, Vote.target == Candidate.id) \
