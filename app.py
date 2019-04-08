@@ -17,7 +17,7 @@ from sqlalchemy.sql.expression import func, desc
 from flask_login import login_required, fresh_login_required, login_user, login_fresh, login_url, LoginManager, \
     UserMixin, logout_user, current_user
 from cas_client import *
-from werkzeug.routing import SubPath
+from werkzeug.routing import Rule
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -39,6 +39,8 @@ if config.get('USE_HTTPS', "false").strip().lower() != "false":
         'script-src': "'self' http://* 'unsafe-inline' 'unsafe-eval'",
         'img-src': "'self' http://* 'unsafe-inline' data: *",
     })
+app.url_rule_class = lambda path, **options: Rule(app.config['APPLICATION_ROOT'] + path, **options)
+
 
 app.config["APPLICATION_ROOT"] = "/kstar"
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
@@ -160,9 +162,6 @@ def unauthorized(e):
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
-
-
-app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
 
 
 if __name__ == "__main__":
