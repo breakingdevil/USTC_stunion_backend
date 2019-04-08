@@ -2,7 +2,7 @@
 
 
 {% block content %}
-<h1 class="text-center">第十三届 K-star 校园歌手大赛决赛投票</h1>
+<h2 class="text-center">第十三届 K-star 校园歌手大赛决赛投票</h2>
 
 <div class="container" style="margin: 1rem auto 2rem;">
 	<div class="row">
@@ -18,6 +18,8 @@
 	<br>
 	<br>
 	{% if enabled %}
+        <br>
+        <br>
 		<div class="col">
 			<a href="{{ url_for("vote") }}" class="btn btn-primary">点我去投票</a>
 		</div>
