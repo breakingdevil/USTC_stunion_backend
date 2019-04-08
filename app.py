@@ -89,7 +89,7 @@ class Candidate(db.Model):
 
 
 class Ticket(db.Model):
-    __tablename__ = 'Ticket'
+    __tablename__ = 'tickets'
     id = db.Column(db.Integer, primary_key=True)
     ticketNum = db.Column(db.String(16))
     ticketLevel = db.Column(db.Integer, default=1)

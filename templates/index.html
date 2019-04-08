@@ -15,13 +15,13 @@
 </div>
 
 <div class="container row text-center justify-content-center">
-    <br>
-    <br>
-    {% if enabled %}
-			<div class="col">
-				<a href="{{ url_for("vote") }}" class="btn btn-primary">点我去投票</a>
-			</div>
-    {% endif %}
+	<br>
+	<br>
+	{% if enabled %}
+		<div class="col">
+			<a href="{{ url_for("vote") }}" class="btn btn-primary">点我去投票</a>
+		</div>
+	{% endif %}
 
 </div>
 {% endblock %}
