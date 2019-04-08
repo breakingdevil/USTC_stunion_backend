@@ -117,7 +117,7 @@ def submit():
     if ticketInfo is None:
         flash("此票不存在", "danger")
         return redirect(url_for("index"))
-    record = Vote.query.filter_by(ticketNum=request.form['ticketNum']).first()
+    record = Vote.query.filter_by(ticketId=ticketInfo.id).first()
     if record is not None:
         flash("此票已经使用", "info")
         return redirect(url_for("index"))
