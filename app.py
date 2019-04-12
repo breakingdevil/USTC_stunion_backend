@@ -121,6 +121,9 @@ def submit():
     if record is not None:
         flash("此票已经使用", "info")
         return redirect(url_for("index"))
+    if request.form['candidate'] is None:
+        flash("未选择选手")
+        return redirect(url_for("index"))
     newVote = Vote(ticketId=ticketInfo.id, target=request.form['candidate'])
     db.session.add(newVote)
     db.session.commit()
