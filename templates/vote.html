@@ -14,7 +14,7 @@
 				<p>您的门票编号</p>
 			</div>
 			<div class="col">
-				<input type="text" name="ticketNum" maxlength="12" pattern="[A-Za-z0-9]{12}" style="text-transform: uppercase;" />
+				<input type="text" name="ticketNum" title="门票编号，12 位大写字母与数字的组合" maxlength="12" pattern="[A-Za-z0-9]{12}" style="text-transform: uppercase;" />
 			</div>
 		</div>
         <br>
@@ -38,10 +38,26 @@
 				{% if has_voted %}
 					<a href="{{ url_for("index") }}" class="btn btn-secondary">返回主页</a>
 				{% else %}
-					<button name="submit" class="btn btn-primary" type="submit">提交投票</button>
+					<button id="btn-submit" name="submit" class="btn btn-primary" type="submit">提交投票</button>
 				{% endif %}
 			</div>
 		</div>
 	</div>
 </form>
+
+<script>
+function verifyForm() {
+	if (!$('input[name=ticketNum]')[0].value.match(/^[A-Z0-9]{12}$/i)) {
+		return false;
+	}
+	if ($('input[type=radio][name=candidate]:checked').length !== 1) {
+		return false;
+	}
+	return true;
+}
+function onChange() {
+	$('button[name=submit]').attr("disabled", !verifyForm());
+}
+$('form input[type=text], form input[type=radio]').on('change', onChange);
+</script>
 {% endblock %}
