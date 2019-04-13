@@ -113,7 +113,7 @@ def submit():
     if time_limit_enabled and not checkTimeLimit():
         return redirect(url_for("index")), 400
 
-    ticketInfo = Ticket.query.filter_by(ticketNum=request.form['ticketNum']).first()
+    ticketInfo = Ticket.query.filter_by(ticketNum=request.form['ticketNum'].upper()).first()
     if ticketInfo is None:
         flash("门票编号不存在", "danger")
         return redirect(url_for("index"))
