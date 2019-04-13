@@ -14,7 +14,7 @@
 				<p>您的门票编号</p>
 			</div>
 			<div class="col">
-				<input type="text" name="ticketNum" />
+				<input type="text" name="ticketNum" style="text-transform: uppercase;" />
 			</div>
 		</div>
         <br>
@@ -26,7 +26,7 @@
 						{% if has_voted %}
 							{% if candidate.selected %}checked{% endif %} disabled
 						{% endif %}
-						style="text-transform: uppercase;" />
+						/>
 				</div>
 				<div class="col">
 					<p>{{ candidate.name }}</p>
