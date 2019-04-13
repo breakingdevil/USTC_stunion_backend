@@ -61,5 +61,6 @@ function onChange() {
 	$('button[name=submit]').attr("disabled", !verifyForm());
 }
 $('form input[type=text], form input[type=radio]').on('change', onChange);
+$('form input[type=text]').on('keyup', onChange);
 </script>
 {% endblock %}
