@@ -8,39 +8,29 @@
 {% endif %}
 
 <form id="vote" action="{{ url_for("submit") }}" method="post">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-2">
-				<p>您的门票编号</p>
-			</div>
-			<div class="col">
-				<input type="text" name="ticketNum" title="门票编号，12 位大写字母与数字的组合" maxlength="12" pattern="[A-Za-z0-9]{12}" style="text-transform: uppercase;" />
-			</div>
+	<div class="form-group row">
+		<label for="ticketNum">您的门票编号</label>
+		<input id="ticketNum" type="text" name="ticketNum" title="门票编号，12 位大写字母与数字的组合" maxlength="12" pattern="[A-Za-z0-9]{12}" style="text-transform: uppercase;" />
+	</div>
+	<div class="form-group">
+	{% for candidate in candidates %}
+		<div class="form-check">
+			<input id="candidate-{{ loop.index }}" class="form-check-input" type="radio" name="candidate" value="{{ candidate.id }}"
+			{% if has_voted %}
+				{% if candidate.selected %}checked{% endif %} disabled
+			{% endif %}
+			/>
+			<label for="candidate-{{ loop.index }}">{{ candidate.name }}</label>
 		</div>
-        <br>
-		{% for candidate in candidates %}
-            <br>
-			<div class="row">
-				<div class="col-md-1">
-						<input type="radio" name="candidate" value="{{ candidate.id }}"
-						{% if has_voted %}
-							{% if candidate.selected %}checked{% endif %} disabled
-						{% endif %}
-						/>
-				</div>
-				<div class="col">
-					<p>{{ candidate.name }}</p>
-				</div>
-			</div>
-		{% endfor %}
-		<div class="row">
-			<div class="col text-center justify-content-center">
-				{% if has_voted %}
-					<a href="{{ url_for("index") }}" class="btn btn-secondary">返回主页</a>
-				{% else %}
-					<button id="btn-submit" name="submit" class="btn btn-primary" type="submit" disabled>提交投票</button>
-				{% endif %}
-			</div>
+	{% endfor %}
+	</div>
+	<div class="row">
+		<div class="col text-center justify-content-center">
+			{% if has_voted %}
+			<a href="{{ url_for("index") }}" class="btn btn-secondary">返回主页</a>
+			{% else %}
+			<button id="btn-submit" name="submit" class="btn btn-primary" type="submit" disabled>提交投票</button>
+			{% endif %}
 		</div>
 	</div>
 </form>
