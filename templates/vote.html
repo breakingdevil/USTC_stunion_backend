@@ -38,7 +38,7 @@
 				{% if has_voted %}
 					<a href="{{ url_for("index") }}" class="btn btn-secondary">返回主页</a>
 				{% else %}
-					<button id="btn-submit" name="submit" class="btn btn-primary" type="submit">提交投票</button>
+					<button id="btn-submit" name="submit" class="btn btn-primary" type="submit" disabled>提交投票</button>
 				{% endif %}
 			</div>
 		</div>
