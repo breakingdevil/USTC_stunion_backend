@@ -115,14 +115,14 @@ def submit():
 
     ticketInfo = Ticket.query.filter_by(ticketNum=request.form['ticketNum']).first()
     if ticketInfo is None:
-        flash("此票不存在", "danger")
+        flash("门票编号不存在", "danger")
         return redirect(url_for("index"))
     record = Vote.query.filter_by(ticketId=ticketInfo.id).first()
     if record is not None:
-        flash("此票已经使用", "info")
+        flash("门票已经使用", "info")
         return redirect(url_for("index"))
     if 'candidate' not in request.form:
-        flash("未选择选手", "info")
+        flash("您未选择选手", "info")
         return redirect(url_for("index"))
     newVote = Vote(ticketId=ticketInfo.id, target=request.form['candidate'])
     db.session.add(newVote)
