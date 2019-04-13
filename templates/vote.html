@@ -44,7 +44,9 @@
 		</div>
 	</div>
 </form>
+{% endblock %}
 
+{% block script %}
 <script>
 function verifyForm() {
 	if (!$('input[name=ticketNum]')[0].value.match(/^[A-Z0-9]{12}$/i)) {
