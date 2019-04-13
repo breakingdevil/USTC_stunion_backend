@@ -113,17 +113,17 @@ def submit():
     if time_limit_enabled and not checkTimeLimit():
         return redirect(url_for("index")), 400
 
-    ticketInfo = Ticket.query.filter_by(ticketNum=request.form['ticketNum'].upper()).first()
+    ticketInfo = Ticket.query.filter_by(ticketNum=request.form['ticketNum'].upper().replace("-", "")).first()
     if ticketInfo is None:
         flash("门票编号不存在", "danger")
-        return redirect(url_for("index"))
+        return redirect(url_for("vote"))
     record = Vote.query.filter_by(ticketId=ticketInfo.id).first()
     if record is not None:
         flash("门票已经使用", "info")
-        return redirect(url_for("index"))
+        return redirect(url_for("vote"))
     if 'candidate' not in request.form:
         flash("您未选择选手", "info")
-        return redirect(url_for("index"))
+        return redirect(url_for("vote"))
     newVote = Vote(ticketId=ticketInfo.id, target=request.form['candidate'])
     db.session.add(newVote)
     db.session.commit()
