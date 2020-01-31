@@ -8,3 +8,6 @@
 - @taoky
 - @iBug
 
+## licenses
+- 1.允许任何组织或者个人在此代码上进行二次开发
+- 2.最终解释权归@breakingdevil所有
